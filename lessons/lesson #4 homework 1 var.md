@@ -18,7 +18,7 @@ Ver Cluster Port Status Owner    Data directory              Log file
 4. Зашел под пользователем _postgres_ в _psql_ **`sudo su postgres`** **`psql`**
 
 5. Создал таблицу _test_, добавил строку
-```console
+```sql
 postgres=# create table test(c1 text);
 CREATE TABLE
 postgres=# insert into test values('1');
@@ -139,7 +139,7 @@ tmpfs           1.8G     0  1.8G   0% /sys/fs/cgroup
 tmpfs           369M     0  369M   0% /run/user/1001
 /dev/sdb1       9.8G   37M  9.3G   1% /mnt/data
 ```
-> _mountpoint_ у `/dev/sdb1` - `/mnt/data`, всё ок
+> _mountpoint_ `/dev/sdb1` - `/mnt/data`, всё ок
 - Для того, чтобы диск нормально монтировался после перезагрузки - делаем изменения в /etc/fstab:
 ```console
 am@lesson-4-hw-var-1:~$ cat /etc/fstab
