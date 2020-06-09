@@ -7,17 +7,17 @@
 
 1. Создал ВМ (_Ubuntu 18.04 LTS (bionic) / n1-standard-1 / us-central1-a_). Название: **`lesson-4-hw-var-1`**
 
-2. Подключился по _ssh_, установил _postgresql-10_ `sudo apt-get install postgresql`
+2. Подключился по _ssh_, установил _postgresql-10_ **`sudo apt-get install postgresql`**
 
-3. Проверка: **`sudo -u postgres pg_lsclusters`**
+Проверка: **`sudo -u postgres pg_lsclusters`**
 ```console
 Ver Cluster Port Status Owner    Data directory              Log file
 10  main    5432 online postgres /var/lib/postgresql/10/main /var/log/postgresql/postgresql-10-main.log
 ```
 
-4. Зашел под пользователем _postgres_ в _psql_ **`sudo su postgres`** **`psql`**
+3. Зашел под пользователем _postgres_ в _psql_ **`sudo su postgres`** **`psql`**
 
-5. Создал таблицу _test_, добавил строку
+4. Создал таблицу _test_, добавил строку
 ```sql
 postgres=# create table test(c1 text);
 CREATE TABLE
@@ -25,7 +25,7 @@ postgres=# insert into test values('1');
 INSERT 0 1
 ```
 
-6. Остановил кластер _postgres_ через **`sudo -u postgres pg_ctlcluster 10 main stop`**:
+5. Остановил кластер _postgres_ через **`sudo -u postgres pg_ctlcluster 10 main stop`**:
 ```console
 am@lesson-4-hw-var-1:~$ sudo -u postgres pg_ctlcluster 10 main stop
 Warning: stopping the cluster using pg_ctlcluster will mark the systemd unit as failed. Consider using systemctl:
@@ -38,11 +38,11 @@ Ver Cluster Port Status Owner    Data directory              Log file
 10  main    5432 down   postgres /var/lib/postgresql/10/main /var/log/postgresql/postgresql-10-main.log
 ```
 
-7. Создал новый _standard persistent_ диск через _Compute Engine -> Диски -> Создать диск_. Название: `lesson-4-hw-disk-1`. Размер: 10Gb
+6. Создал новый _standard persistent_ диск через _Compute Engine -> Диски -> Создать диск_. Название: `lesson-4-hw-disk-1`. Размер: 10Gb
 
-8. Добавил диск `lesson-4-hw-disk-1` к ВМ `lesson-4-hw-var-1`
+7. Добавил диск `lesson-4-hw-disk-1` к ВМ `lesson-4-hw-var-1`
 
-9. Инициализация диска:
+8. Инициализация диска:
 - Нашел новый диск:
 ```console
 am@lesson-4-hw-var-1:~$ lsblk
@@ -64,11 +64,9 @@ Do you want to continue?
 Yes/No? Yes                                                               
 Information: You may need to update /etc/fstab.
 ```
-- Создал раздел на весь диск:
-```console
-am@lesson-4-hw-var-1:~$ sudo parted -a opt /dev/sdb mkpart primary ext4 0% 100%
-Information: You may need to update /etc/fstab.
-```
+- Создал раздел на весь диск: 
+**`sudo parted -a opt /dev/sdb mkpart primary ext4 0% 100%`**
+
 Проверка:
 ```console
 am@lesson-4-hw-var-1:~$ lsblk                                             
@@ -168,7 +166,7 @@ sdb1  ext4     pg_data         5ef15eae-dd5b-4b9b-a934-ac503aef2a48 /mnt/data
 ```
 > после перемонтирования всего, используя _fstab_ (`sudo mount -a`), всё прошло удачно и наш диск `sdb1` на своём месте.
 
-10. Проверил доступность файловой системы нового диска:
+9. Проверил доступность файловой системы нового диска:
 ```console
 am@lesson-4-hw-var-1:~$ df -h -x tmpfs -x devtmpfs
 Filesystem      Size  Used Avail Use% Mounted on
@@ -205,9 +203,9 @@ sudo rm /mnt/data/test_file
 am@lesson-4-hw-var-1:~$ cat /mnt/data/test_file
 cat: /mnt/data/test_file: No such file or directory
 ```
-> :heavy_exclamation_mark:**Вывод**: файловая система нового диска работает нормально.
+> ❗️**Вывод**: файловая система нового диска работает нормально.
 
-11. Сделал пользователя _postgres_ владельцем `/mnt/data`:
+10. Сделал пользователя _postgres_ владельцем `/mnt/data`:
 ```console
 am@lesson-4-hw-var-1:~$ sudo chown -R postgres:postgres /mnt/data/
 am@lesson-4-hw-var-1:~$ ls -l /mnt/data
@@ -216,21 +214,21 @@ drwx------ 2 postgres postgres 16384 Jun  6 21:29 lost+found
 ```
 > пользователь _postgres_ - владелец каталога `/mnt/data`, всё ок
 
-12. Перенес содержимое `/var/lib/postgres/10` в `/mnt/data`:
+11.  Перенес содержимое `/var/lib/postgres/10` в `/mnt/data`:
 ```console
 am@lesson-4-hw-var-1:~$ sudo mv /var/lib/postgresql/10 /mnt/data
 am@lesson-4-hw-var-1:~$ ls /mnt/data
 10  lost+found
 ```
 
-13. Попытался запустить кластер:
+12. Попытался запустить кластер:
 ```console
 am@lesson-4-hw-var-1:~$ sudo -u postgres pg_ctlcluster 10 main start
 Error: /var/lib/postgresql/10/main is not accessible or does not exist
 ```
-:question:**Q: Напишите получилось или нет и почему?** A: _Нет, не получилось, т.к. данные postgres-инстанса были пересены на новое место, о котором он пока не знает._
+❓**Q: Напишите получилось или нет и почему?** A: _Нет, не получилось, т.к. данные postgres-инстанса были пересены на новое место, о котором он пока не знает._
 
-14. Открыл конфигурационный файл `/etc/postgresql/10/main/postgresql.conf`:
+13. Открыл конфигурационный файл `/etc/postgresql/10/main/postgresql.conf`:
 ```console
 am@lesson-4-hw-var-1:~$ cd /etc/postgresql/10/main
 am@lesson-4-hw-var-1:/etc/postgresql/10/main$ ls
@@ -239,7 +237,7 @@ am@lesson-4-hw-var-1:/etc/postgresql/10/main$ sudo nano postgresql.conf
 ```
 Изменил `data_directory = '/var/lib/postgresql/10/main'` на `data_directory = '/mnt/data/10/main'`
 
-15. Запустил кластер:
+14. Запустил кластер:
 ```console
 am@lesson-4-hw-var-1:/etc/postgresql/10/main$ sudo -u postgres pg_ctlcluster 10 main start
 Warning: the cluster will not be running as a systemd service. Consider using systemctl:
@@ -253,7 +251,7 @@ Ver Cluster Port Status Owner    Data directory    Log file
 ```
 > кластер запущен, всё ок
 
-16. Зашел в _psql_, проверил ранее созданную таблицу _test_:
+15. Зашел в _psql_, проверил ранее созданную таблицу _test_:
 ```console
 am@lesson-4-hw-var-1:/etc/postgresql/10/main$ sudo su postgres
 postgres@lesson-4-hw-var-1:/etc/postgresql/10/main$ psql
