@@ -4,15 +4,19 @@
 ---
 ***
 ### Домашнее задание. 1 вариант.
-**1 вариант:**
+
 1. Создал ВМ (_Ubuntu 18.04 LTS (bionic) / n1-standard-1 / us-central1-a_). Название: **`lesson-4-hw-var-1`**
+
 2. Подключился по _ssh_, установил _postgresql-10_ `sudo apt-get install postgresql`
+
 3. Проверка: `sudo -u postgres pg_lsclusters`
 ```bash
 Ver Cluster Port Status Owner    Data directory              Log file
 10  main    5432 online postgres /var/lib/postgresql/10/main /var/log/postgresql/postgresql-10-main.log
 ```
+
 4. Зашел под пользователем _postgres_ в _psql_ `sudo su postgres` `psql`
+
 5. Создал таблицу _test_, добавил строку
 ```bash
 postgres=# create table test(c1 text);
@@ -20,6 +24,7 @@ CREATE TABLE
 postgres=# insert into test values('1');
 INSERT 0 1
 ```
+
 6. Остановил кластер _postgres_ через `sudo -u postgres pg_ctlcluster 10 main stop`:
 ```bash
 am@lesson-4-hw-var-1:~$ sudo -u postgres pg_ctlcluster 10 main stop
@@ -32,8 +37,11 @@ am@lesson-4-hw-var-1:~$ sudo -u postgres pg_lsclusters
 Ver Cluster Port Status Owner    Data directory              Log file
 10  main    5432 down   postgres /var/lib/postgresql/10/main /var/log/postgresql/postgresql-10-main.log
 ```
+
 7. Создал новый _standard persistent_ диск через _Compute Engine -> Диски -> Создать диск_. Название: `lesson-4-hw-disk-1`. Размер: 10Gb
+
 8. Добавил диск `lesson-4-hw-disk-1` к ВМ `lesson-4-hw-var-1`
+
 9. Инициализация диска:
 - Нашел новый диск:
 ```bash
@@ -159,7 +167,8 @@ sdb1  ext4     pg_data         5ef15eae-dd5b-4b9b-a934-ac503aef2a48 /mnt/data
 └─sdb  
 ```
 > после перемонтирования всего, используя _fstab_ (`sudo mount -a`), всё прошло удачно и наш диск `sdb1` на своём месте.
-10. Проверим доступность файловой системы нового диска:
+
+10. Проверил доступность файловой системы нового диска:
 ```bash
 am@lesson-4-hw-var-1:~$ df -h -x tmpfs -x devtmpfs
 Filesystem      Size  Used Avail Use% Mounted on
@@ -180,23 +189,24 @@ drwx------ 2 root root 16384 Jun  6 21:29 lost+found
 ```
 > lost+found (указывает на корень файловой системы Ext) - на месте
 
-Запишем тестовый файл:
+Записал тестовый файл:
 ```bash
 am@lesson-4-hw-var-1:~$ echo "success" | sudo tee /mnt/data/test_file
 success
 ```
-Прочитаем его:
+Прочитал его:
 ```bash
 am@lesson-4-hw-var-1:~$ cat /mnt/data/test_file
 success
 ```
-Удалим:
+Удалил тестовый файл:
 ```bash
 sudo rm /mnt/data/test_file
 am@lesson-4-hw-var-1:~$ cat /mnt/data/test_file
 cat: /mnt/data/test_file: No such file or directory
 ```
 > **Вывод**: файловая система нового диска работает нормально.
+
 11. Сделал пользователя _postgres_ владельцем `/mnt/data`:
 ```bash
 am@lesson-4-hw-var-1:~$ sudo chown -R postgres:postgres /mnt/data/
@@ -205,18 +215,21 @@ total 16
 drwx------ 2 postgres postgres 16384 Jun  6 21:29 lost+found
 ```
 > пользователь _postgres_ - владелец каталога `/mnt/data`, всё ок
+
 12. Перенес содержимое `/var/lib/postgres/10` в `/mnt/data`:
 ```bash
 am@lesson-4-hw-var-1:~$ sudo mv /var/lib/postgresql/10 /mnt/data
 am@lesson-4-hw-var-1:~$ ls /mnt/data
 10  lost+found
 ```
+
 13. Попытался запустить кластер:
 ```bash
 am@lesson-4-hw-var-1:~$ sudo -u postgres pg_ctlcluster 10 main start
 Error: /var/lib/postgresql/10/main is not accessible or does not exist
 ```
 **Q: Напишите получилось или нет и почему?** A: _Нет, не получилось, т.к. данные postgres-инстанса были пересены на новое место, о котором он пока не знает._
+
 14. Открыл конфигурационный файл `/etc/postgresql/10/main/postgresql.conf`:
 ```bash
 am@lesson-4-hw-var-1:~$ cd /etc/postgresql/10/main
@@ -224,7 +237,8 @@ am@lesson-4-hw-var-1:/etc/postgresql/10/main$ ls
 conf.d  environment  pg_ctl.conf  pg_hba.conf  pg_ident.conf  postgresql.conf  start.conf
 am@lesson-4-hw-var-1:/etc/postgresql/10/main$ sudo nano postgresql.conf
 ```
-Изменил `data_directory = '/var/lib/postgresql/10/main'` на `data_directory = '/mnt/data/10/main'`.
+Изменил `data_directory = '/var/lib/postgresql/10/main'` на `data_directory = '/mnt/data/10/main'`
+
 15. Запустил кластер:
 ```bash
 am@lesson-4-hw-var-1:/etc/postgresql/10/main$ sudo -u postgres pg_ctlcluster 10 main start
@@ -238,6 +252,7 @@ Ver Cluster Port Status Owner    Data directory    Log file
 10  main    5432 online postgres /mnt/data/10/main /var/log/postgresql/postgresql-10-main.log
 ```
 > кластер запущен, всё ок
+
 16. Зашел в _psql_, проверил ранее созданную таблицу _test_:
 ```bash
 am@lesson-4-hw-var-1:/etc/postgresql/10/main$ sudo su postgres
