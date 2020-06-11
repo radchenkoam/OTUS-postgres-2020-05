@@ -6,7 +6,7 @@
 ***
 ### **Занятие #4.**
 #### <u>Тема:</u> Установка PostgreSQL. 
-- [Домашнее задание. Вариант 1]((https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%234%20homework%201%20var.md) "Click")
+- [Домашнее задание. Вариант 1](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%234%20homework%201%20var.md "Click")
 - [Домашнее задание. Задание со звездочкой](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%234%20homework%201%20var%20asterisk.md "Click")
 #### <u>Тема:</u> Установка и настройка PostgreSQL в контейнере Docker. 
 - [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%234%20homework%202%20var.md "Click")
