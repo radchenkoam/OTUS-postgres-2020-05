@@ -1,4 +1,5 @@
 <div align="right"><h4><a href="https://otus.ru/">OTUS.</a> Группа: "postgres-2020-05"</div>
+
 ### **Занятие #2.**
 #### <u>Тема:</u> SQL и реляционные СУБД. Введение в PostgreSQL.
 - [Домашнее задание.](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%232%20homework.md "Click")
