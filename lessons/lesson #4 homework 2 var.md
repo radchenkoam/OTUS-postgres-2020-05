@@ -40,6 +40,7 @@
     ```
     - обновил базу данных пакетов информацией о пакетах Docker из вновь добавленного репозитория: `sudo apt update`
     - убедился, что будет установлен _Docker_ из репозитория _Docker_, а не из репозитория по умолчанию _Ubuntu_: `apt-cache policy docker-ce`
+        
     ```bash
     docker-ce:
   Installed: (none)
@@ -51,6 +52,7 @@
     > **https://download.docker.com** - ОК
     - установил _Docker_: `sudo apt install docker-ce`
     проверка: `sudo systemctl status docker`
+    
     ```bash
     ● docker.service - Docker Application Container Engine
        Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
