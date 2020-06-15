@@ -13,7 +13,7 @@
 Fetching cluster endpoint and auth data.
 kubeconfig entry generated for my-first-cluster-1.
 ```
-Проверка: '$ kubectl get nodes'
+Проверка: `$ kubectl get nodes`
 ```bash
 NAME                                                STATUS   ROLES    AGE   VERSION
 gke-my-first-cluster-1-default-pool-1c7acfc7-6fbn   Ready    <none>   29m   v1.17.5-gke.9
