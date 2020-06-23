@@ -15,6 +15,10 @@
 - [Домашнее задание. Доп вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%234%20homework%20gke%20helm.md "Ctrl+click - new tab")
 
 ***
+### **Занятие #6.**
+#### <u>Тема:</u> "MVCC, vacuum и autovacuum".
+#### Работа с базами данных, пользователями и правами, настройка autovacuum с учетом оптимальной производительности.
+- [Домашнее задание. Вариант 1](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%236%20homework%201%20var.md "Ctrl+click - new tab")
 
 
 
