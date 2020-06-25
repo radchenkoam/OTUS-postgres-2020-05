@@ -17,8 +17,12 @@
 ***
 ### **Занятие #6.**
 #### <u>Тема:</u> "MVCC, vacuum и autovacuum".
-#### Работа с базами данных, пользователями и правами, настройка autovacuum с учетом оптимальной производительности.
+#### Работа с базами данных, пользователями и правами.
 - [Домашнее задание. Вариант 1](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%236%20homework%201%20var.md "Ctrl+click - new tab")
+
+#### Настройка autovacuum с учетом оптимальной производительности.
+- [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%236%20homework%202%20var.md "Ctrl+click - new tab")
+
 
 
 
