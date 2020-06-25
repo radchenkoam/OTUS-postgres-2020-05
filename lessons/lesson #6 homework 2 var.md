@@ -91,8 +91,9 @@
     `sudo su - postgres`
     `psql -c "alter user postgres with password '1qaz2wsx'"`
 
-- в файл конфигурации `pg_hba.conf` внес изменения` 
+- в файл конфигурации `pg_hba.conf` внес изменения 
     `sudo nano /etc/postgresql/11/main/pg_hba.conf` 
+
     ```bash
     # IPv4 local connections:
     host    all             all             127.0.0.1/32            md5
