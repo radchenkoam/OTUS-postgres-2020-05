@@ -29,7 +29,7 @@
 
 ***
   - импортировал GPG-ключ репозитория: 
-  `wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -`
+    `wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -`
   - добавил содержимое репозитория в систему (через переменную RELEASE, подойдет для Ubuntu 20.04/18.04/16.04) 
   
     `RELEASE=$(lsb_release -cs)` 
@@ -91,7 +91,7 @@
     `sudo su - postgres`
     `psql -c "alter user postgres with password '1qaz2wsx'"`
 
-- в файл конфигурации `pg_hba.conf внес изменения` 
+- в файл конфигурации `pg_hba.conf` внес изменения` 
     `sudo nano /etc/postgresql/11/main/pg_hba.conf` 
     ```bash
     # IPv4 local connections:
