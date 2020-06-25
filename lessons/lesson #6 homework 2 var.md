@@ -9,7 +9,8 @@
 
 ***
 
-- Перешел в _Compute Engine_ и создал новую виртуальную машину:
+- Перешел в _Compute Engine_ и создал новую виртуальную машину: 
+
 [`Google Cloud Platform`](https://cloud.google.com/ "Google Cloud") -> `Compute Engine` -> `Экземпляры ВМ` -> `Создать экземпляр`
 
 :hammer_and_wrench: Параметр | :memo: Значение |:hammer_and_wrench: Параметр | :memo: Значение |
