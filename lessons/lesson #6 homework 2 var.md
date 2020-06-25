@@ -31,8 +31,11 @@
   - импортировал GPG-ключ репозитория: 
   `wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -`
   - добавил содержимое репозитория в систему (через переменную RELEASE, подойдет для Ubuntu 20.04/18.04/16.04) 
-  `RELEASE=$(lsb_release -cs)`
-  `echo "deb http://apt.postgresql.org/pub/repos/apt/ ${RELEASE}"-pgdg main | sudo tee /etc/apt/sources.list.d/pgdg.list`
+  
+    `RELEASE=$(lsb_release -cs)` 
+
+    `echo "deb http://apt.postgresql.org/pub/repos/apt/ ${RELEASE}"-pgdg main | sudo tee /etc/apt/sources.list.d/pgdg.list`
+
   - обновил списки APT-пакетов
   `sudo apt update`
   - установил серверную и клиентскую часть _PostgreSQL 11_
