@@ -206,13 +206,15 @@
     --------------:|---------------|--------------:| 
     | [autovacuum](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum#GUC-AUTOVACUUM "Ctrl+click -> new tab") | on | autovacuum = on | 
     | [track_counts](https://postgrespro.ru/docs/postgresql/11/runtime-config-statistics#GUC-TRACK-COUNTS "Ctrl+click -> new tab") | on | track_counts = on | 
-    | [log_autovacuum_min_duration](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 0 | log_autovacuum_min_duration = 0 | 
-    | [autovacuum_max_workers](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 10 | autovacuum_max_workers = 10 | 
-    | [autovacuum_naptime](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 15s | autovacuum_naptime = 15s | 
+    | [log_autovacuum_min_duration](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | -1 | log_autovacuum_min_duration = -1 | 
+    | [autovacuum_max_workers](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 2 | autovacuum_max_workers = 2 | 
+    | [autovacuum_naptime](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 5s | autovacuum_naptime = 5s | 
     | [autovacuum_vacuum_threshold](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 25 | autovacuum_vacuum_threshold = 25 | 
-    | [autovacuum_vacuum_scale_factor](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 0.1 | autovacuum_vacuum_scale_factor = 0.1 | 
-    | [autovacuum_vacuum_cost_delay](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 10ms | autovacuum_vacuum_cost_delay = 10ms | 
-    | [autovacuum_vacuum_cost_limit](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 1000 | autovacuum_vacuum_cost_limit = 1000 | 
+    | [autovacuum_vacuum_scale_factor](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 0.05 | autovacuum_vacuum_scale_factor = 0.05 | 
+    | [autovacuum_analyze_threshold](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 25 | autovacuum_analyze_threshold = 25 | 
+    | [autovacuum_analyze_scale_factor](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 0.1 | autovacuum_analyze_scale_factor = 0.1 |
+    | [autovacuum_vacuum_cost_delay](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 5ms | autovacuum_vacuum_cost_delay = 5ms | 
+    | [autovacuum_vacuum_cost_limit](https://postgrespro.ru/docs/postgresql/11/runtime-config-autovacuum "Ctrl+click -> new tab") | 500 | autovacuum_vacuum_cost_limit = 500 | 
 
 - "мягко" перегрузил конфигурацию: `sudo pg_ctlcluster 11 main reload`
     проверил:
@@ -225,36 +227,38 @@
     ```
     :+1: _t (true) - конфигурация перегружена_
 
-    - снова запустил команды: 
+- снова запустил команды: 
     `pgbench -i postgres` 
     `pgbench -c8 -P 60 -T 3600 -U postgres postgres` 
-    и снова зафиксировал среднее значение tps в последней ⅙ части работы (735.6): 
+    и снова зафиксировал среднее значение tps в последней ⅙ части работы (875.14): 
 
     ```bash
-    progress: 3060.0 s, 746.1 tps, lat 10.723 ms stddev 2.174
-    progress: 3120.0 s, 675.9 tps, lat 11.836 ms stddev 3.073
-    progress: 3180.0 s, 733.3 tps, lat 10.910 ms stddev 2.428
-    progress: 3240.0 s, 782.2 tps, lat 10.227 ms stddev 2.073
-    progress: 3300.0 s, 783.0 tps, lat 10.217 ms stddev 2.198
-    progress: 3360.0 s, 730.9 tps, lat 10.946 ms stddev 2.316
-    progress: 3420.0 s, 664.3 tps, lat 12.043 ms stddev 3.123
-    progress: 3480.0 s, 710.2 tps, lat 11.264 ms stddev 2.774
-    progress: 3540.0 s, 749.6 tps, lat 10.673 ms stddev 2.291
-    progress: 3600.0 s, 780.5 tps, lat 10.251 ms stddev 2.071
+    progress: 3060.0 s, 897.8 tps, lat 8.911 ms stddev 1.716
+    progress: 3120.0 s, 887.7 tps, lat 9.012 ms stddev 1.762
+    progress: 3180.0 s, 867.9 tps, lat 9.218 ms stddev 1.962
+    progress: 3240.0 s, 898.0 tps, lat 8.908 ms stddev 1.706
+    progress: 3300.0 s, 854.6 tps, lat 9.361 ms stddev 1.956
+    progress: 3360.0 s, 878.8 tps, lat 9.104 ms stddev 1.710
+    progress: 3420.0 s, 877.9 tps, lat 9.112 ms stddev 1.733
+    progress: 3480.0 s, 854.6 tps, lat 9.361 ms stddev 1.930
+    progress: 3540.0 s, 873.9 tps, lat 9.155 ms stddev 1.830
+    progress: 3600.0 s, 860.2 tps, lat 9.300 ms stddev 1.916
     transaction type: <builtin: TPC-B (sort of)>
     scaling factor: 1
     query mode: simple
     number of clients: 8
     number of threads: 1
     duration: 3600 s
-    number of transactions actually processed: 2605498
-    latency average = 11.053 ms
-    latency stddev = 2.677 ms
-    tps = 723.744085 (including connections establishing)
-    tps = 723.744871 (excluding connections establishing)
+    number of transactions actually processed: 3083103
+    latency average = 9.341 ms
+    latency stddev = 1.988 ms
+    tps = 856.411286 (including connections establishing)
+    tps = 856.411994 (excluding connections establishing)
     ```
 
-:exclamation: _**Итог:** Возможно, что я сделал что-то не то, так как ощутимой разницы до тюнинга и после я не заметил._
+:exclamation: _**Итог:** При новых настройках наблюдается значительный прирост произодительности - увеличение tps (порядка 20%), значительное снижение задержек (latency)._
+
+:+1: Эсперимент проведен удачно 🦆
 
 :link: [PERCONA. Tuning Autovacuum in PostgreSQL and Autovacuum Internals](https://www.percona.com/blog/2018/08/10/tuning-autovacuum-in-postgresql-and-autovacuum-internals/ "Ctrl+click -> new tab")
 
