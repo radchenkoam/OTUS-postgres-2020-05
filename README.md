@@ -26,9 +26,11 @@
 
 ### **Занятие #8.**
 #### <u>Тема:</u> "Блокировки".
+
 #### Работа с журналами, механизм блокировок.  
 - [Домашнее задание. Вариант 1](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%238%20homework%201%20var.md "Ctrl+click - new tab")
 
-
+#### Работа с механизмом блокировок объектов и строк.
+- [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%238%20homework%202%20var.md "Ctrl+click - new tab")
 
 
