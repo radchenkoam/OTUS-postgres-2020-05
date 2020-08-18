@@ -20,7 +20,7 @@ SQL и реляционные СУБД. Введение в PostgreSQL
 ***
 ### Домашнее задание
 #### Работа с уровнями изоляции транзакции в PostgreSQL
-**Цель:** _Научиться работать с Google Cloud Platform на уровне Google Compute Engine (IaaS) - научиться управлять уровнем изолции транзации в PostgreSQL, и понимать особенность работы уровней read commited и repeatable read_
+**Цель:** _Научиться работать с Google Cloud Platform на уровне Google Compute Engine (IaaS) - научиться управлять уровнем изолции транзации в PostgreSQL, и понимать особенность работы уровней read committed и repeatable read_
 - создать новый проект в *Google Cloud Platform*, например postgres2020-<yyyymmdd>, где yyyymmdd год, месяц и день вашего рождения (имя проекта должно быть уникально на уровне *GCP*)
 - дать возможность доступа к этому проекту пользователю postgres202005@gmail.com с ролью *Project Editor*
 - далее создать инстанс виртуальной машины *Compute Engine* с дефолтными параметрами

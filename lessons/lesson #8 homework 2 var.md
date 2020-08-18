@@ -7,7 +7,7 @@
 <div align=center><h3>1. Настройка сервера</h3></div>  
 
 ***
-- создал виртуальную машину `lesson-8-variant-2` в _GCP Compute Enigine_  
+- создал виртуальную машину `lesson-8-variant-2` в _GCP Compute Engine_  
 
 - установил _PostgreSQL 11_  
 
@@ -88,7 +88,7 @@
     ```sql  
     update space_users set name = 'Yuri A. Gagarin' where id = 1;  
     ```
-- выполнил запрос к представлению [pg_locks](https://postgrespro.ru/docs/postgrespro/11/view-pg-locks "Ctlr+click -> new tab"): 
+- выполнил запрос к представлению [pg_locks](https://postgrespro.ru/docs/postgrespro/11/view-pg-locks "Ctrl+click -> new tab"): 
     :link: [pg_backend_pid()](https://postgrespro.ru/docs/postgrespro/11/functions-info "Ctrl+click -> new tab")  
     ```sql
     select locktype, pid, relation::regclass, virtualxid as virtxid, 
@@ -248,7 +248,7 @@ _продемонстрировать эту ситуацию можно с по
 | | fetch cur2; (ожидает блокировку) |
 | fetch cur1; | | 
 
-:exclamation: после последней команды `fetch cur1;` произошла взаимоблокировка:
+ :exclamation: после последней команды `fetch cur1;` произошла взаимоблокировка:
 
 ```bash
 ERROR:  deadlock detected
