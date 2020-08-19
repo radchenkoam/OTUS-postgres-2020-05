@@ -182,12 +182,7 @@ fsync = off
 - перегрузил сервер:
 ```bash
 $ sudo pg_ctlcluster 11 main restart
-```
-
-- выполнил вручную VACUUM ANALYZE:
-```bash
-$ /usr/lib/postgresql/11/bin/vacuumdb -d sbtest -z
-```
+``` 
 
 - снова запустил тест на 10 минут:
 ```bash
