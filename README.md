@@ -34,3 +34,10 @@
 - [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%238%20homework%202%20var.md "Ctrl+click - new tab")
 
 
+### **Занятие #11.**
+#### <u>Тема:</u> "Виды и устройство репликации в PostgreSQL. Практика применения".
+
+#### Нагрузочное тестирование и тюнинг PostgreSQL (sysbench-tpcc).  
+- [Домашнее задание. Вариант 1](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2311%20homework%201%20var.md "Ctrl+click - new tab")
+
+
