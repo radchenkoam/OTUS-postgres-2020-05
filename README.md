@@ -40,4 +40,5 @@
 #### Нагрузочное тестирование и тюнинг PostgreSQL (sysbench-tpcc).  
 - [Домашнее задание. Вариант 1](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2311%20homework%201%20var.md "Ctrl+click - new tab")
 
-
+#### Репликация в PostgreSQL. Логическая репликация.
+- [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2311%20homework%202%20var.md "Ctrl+click - new tab")
