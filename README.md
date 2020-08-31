@@ -49,7 +49,7 @@
 #### <u>Тема:</u> "Работа с большим объемом реальных данных".
 
 #### BigQuery, MySQL, PostgreSQL, PostgreSQL + TimescaleDB.  
-- [Домашнее задание](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2311%20homework.md "Ctrl+click - new tab")
+- [Домашнее задание](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2312%20homework.md "Ctrl+click - new tab")
 
 ***
 
