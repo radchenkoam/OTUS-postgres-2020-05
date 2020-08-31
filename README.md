@@ -42,3 +42,14 @@
 
 #### Репликация в PostgreSQL. Логическая репликация.
 - [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2311%20homework%202%20var.md "Ctrl+click - new tab")
+
+***
+
+### **Занятие #12.**
+#### <u>Тема:</u> "Работа с большим объемом реальных данных".
+
+#### BigQuery, MySQL, PostgreSQL, PostgreSQL + TimescaleDB.  
+- [Домашнее задание](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2311%20homework.md "Ctrl+click - new tab")
+
+***
+
