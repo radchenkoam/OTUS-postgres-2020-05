@@ -72,7 +72,7 @@
       --reservation-affinity=any
     </details></pre>
 
-    ***
+***
 <div align="center"><h4>2. Подготовка файлов для загрузки</h4></div>
 
 ***
