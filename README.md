@@ -3,7 +3,9 @@
 ### **Занятие #2.**
 #### <u>Тема:</u> "SQL и реляционные СУБД. Введение в PostgreSQL".
 - [Домашнее задание.](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%232%20homework.md "Ctrl+click - new tab")
+  
 ***
+
 ### **Занятие #4.**
 #### <u>Тема:</u> "Установка PostgreSQL". 
 - [Домашнее задание. Вариант 1](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%234%20homework%201%20var.md "Ctrl+click - new tab")
@@ -14,7 +16,9 @@
 #### <u>Тема:</u> "Установка и настройка PostgreSQL в Google Kubernetes Engine с помощью Helm-chart". 
 - [Домашнее задание. Доп вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%234%20homework%20gke%20helm.md "Ctrl+click - new tab")
 
+
 ***
+
 ### **Занятие #6.**
 #### <u>Тема:</u> "MVCC, vacuum и autovacuum".
 #### Работа с базами данных, пользователями и правами.
@@ -22,6 +26,7 @@
 
 #### Настройка autovacuum с учетом оптимальной производительности.
 - [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%236%20homework%202%20var.md "Ctrl+click - new tab")  
+
 ***
 
 ### **Занятие #8.**
@@ -32,6 +37,7 @@
 
 #### Работа с механизмом блокировок объектов и строк.
 - [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%238%20homework%202%20var.md "Ctrl+click - new tab")
+  
 ***  
 
 ### **Занятие #11.**
@@ -61,6 +67,15 @@
 
 #### Работа с join-ами.  
 - [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2315%20homework%202%20var.md "Ctrl+click - new tab")
+
+***
+
+### **Занятие #20.**
+#### <u>Тема:</u> "Работа с кластером высокой доступности".
+
+#### pg_auto_failover от Citusdata.  
+- [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2320%20homework%202%20var.md "Ctrl+click - new tab")
+
 
 ***
 
