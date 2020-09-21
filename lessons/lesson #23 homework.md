@@ -199,7 +199,7 @@ users:
 
 - проверил - :+1: 
 ```bash
-$ pgo test -n pgo hippo
+$ pgo test -n pgo test
 
 cluster : test
 	Services
