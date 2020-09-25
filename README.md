@@ -93,3 +93,10 @@
 #### Установка кластера PostgreSQL от CrunchyData в Google Kubernetes Engine.  
 - [Домашнее задание.](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2323%20homework.md "Ctrl+click - new tab")
 
+***
+
+### **Занятие #26.**
+#### <u>Тема:</u> "PostgreSQL и Azure, GCP, AWS". 
+
+#### Установка одного экземпляра сервера PostgreSQL в кластере Kubernetes с помощью Google Cloud Marketplace
+- [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2326%20homework%202%20var.md "Ctrl+click - new tab")
