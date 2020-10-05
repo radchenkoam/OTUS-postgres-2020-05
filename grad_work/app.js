@@ -107,17 +107,10 @@ class Application {
 
     personSearchHandler (req, res) {
         // Получаем строку-фильтр из query-параметров.
-        let searchName = req.query.searchName;
-        let searchAge = req.query.searchAge;
+        let searchName = req.query.searchName || '';
 
         // Ищем Persons и представляем их в виде JSON
         let persons = this.manager.findByName(searchName);
-        if(searchAge) {
-            persons = persons.findByAge(searchAge);
-        };
-        
-        console.log('Name', searchName, 'Age', searchAge);
-
         let personsJson = persons.map(person => person.toJson());
         let response = {
             persons: personsJson
@@ -126,24 +119,6 @@ class Application {
         // Отдаем найденное клиенту
         res.json(response);
     }
-
-/*
-    const match = {}
-
-    if(req.query.published){
-        match.published = req.query.published === 'true'
-    }
-    try {
-        await req.user.populate({
-            path:'posts',
-            match
-        }).execPopulate()
-        res.send(req.user.posts)
-    } catch (error) {
-        res.status(500).send()
-    }
-*/
-
 
     // Вычисление возраста (age) из даты рождения
     getAge(birthday) {

@@ -33,14 +33,6 @@ class PersonManager {
         );
     }
 
-    // Поиск по возрасту Person
-    findByAge (searchNumber) {
-        let persons = Object.keys(this.persons).map(id => this.persons[id]);
-
-        // Отфильтруем из массива только те Person, у которых заданный возраст
-        return persons.filter(person => person.age === searchNumber);
-    }
-
     // Получаем Person по ее id
     getById (id) {
         return this.persons[id];
