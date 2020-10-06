@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "create-dev-tables": "babel-node ./app/db/dev/dbConnection createAllTables",
+    "start": "nodemon --watch . --exec babel-node -- server",
+    "setup": "npm-run-all -p start create-dev-tables"
   },
   "author": "radchenkoam",
   "license": "ISC",
