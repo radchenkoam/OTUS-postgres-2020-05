@@ -1,7 +1,8 @@
 //app/db/dev/pool.js
 import pkg from 'pg';
-const { Pool } = pkg;
 import env from '../../../env.js';
+
+const { Pool } = pkg;
 
 const databaseConfig = { connectionString: env.database_url };
 const pool = new Pool(databaseConfig);
