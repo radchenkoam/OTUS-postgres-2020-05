@@ -1,9 +1,7 @@
 //app/routes/personRoute.js
 import express from 'express';
-
-import { addPerson, getPersonById, getAllPersons, deletePerson, filterPersonByName, getPersonById } from '../controllers/personController';
-
-import verifyAuth from '../middleware/verifyAuth';
+import { addPerson, getPersonById, getAllPersons, deletePerson, filterPersonByName } from '../controllers/personController.js';
+import verifyAuth from '../middleware/verifyAuth.js';
 
 const router = express.Router();
 

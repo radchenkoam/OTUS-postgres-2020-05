@@ -1,6 +1,6 @@
 //app/controllers/userController.js
 import moment from 'moment';
-import dbQuery from '../db/dev/dbQuery';
+import dbQuery from '../db/dev/dbQuery.js';
 import {
   hashPassword,
   comparePassword,
@@ -8,10 +8,10 @@ import {
   validatePassword,
   isEmpty,
   generateUserToken,
-} from '../helpers/validations';
+} from '../helpers/validations.js';
 import {
   errorMessage, successMessage, status,
-} from '../helpers/status';
+} from '../helpers/status.js';
 
 
 /**

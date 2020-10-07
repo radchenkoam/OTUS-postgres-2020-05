@@ -1,16 +1,16 @@
 //app/controllers/adminController.js
 import moment from 'moment';
-import dbQuery from '../db/dev/dbQuery';
+import dbQuery from '../db/dev/dbQuery.js';
 import {
   hashPassword,
   isValidEmail,
   validatePassword,
   isEmpty,
   generateUserToken,
-} from '../helpers/validations';
+} from '../helpers/validations.js';
 import {
   errorMessage, successMessage, status,
-} from '../helpers/status';
+} from '../helpers/status.js';
 
 
 /**

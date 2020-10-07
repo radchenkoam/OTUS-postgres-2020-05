@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import {
   errorMessage, status,
-} from '../helpers/status';
-import env from '../../env';
+} from '../helpers/status.js';
+import env from '../../env.js';
 
 dotenv.config();
 

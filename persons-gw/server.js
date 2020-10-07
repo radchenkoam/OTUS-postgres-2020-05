@@ -2,11 +2,11 @@
 import express from 'express';
 import 'babel-polyfill';
 import cors from 'cors';
-import env from './env';
+import env from './env.js';
 //import userRoute from './app/routes/userRoute';
 //import seedRoute from './app/routes/seedRoute';
 //import adminRoute from './app/routes/adminRoute';
-import personRoute from './app/routes/personRoute';
+import personRoute from './app/routes/personRoute.js';
 
 const app = express();
 

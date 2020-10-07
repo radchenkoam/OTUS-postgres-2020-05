@@ -1,12 +1,12 @@
 //app/controllers/personController.js
 import moment from 'moment';
-import dbQuery from '../db/dev/dbQuery';
+import dbQuery from '../db/dev/dbQuery.js';
 import {
   empty,
-} from '../helpers/validations';
+} from '../helpers/validation.js';
 import {
   errorMessage, successMessage, status,
-} from '../helpers/status';
+} from '../helpers/status.js';
 
 
 /**
