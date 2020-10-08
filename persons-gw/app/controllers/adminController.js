@@ -7,7 +7,7 @@ import {
   validatePassword,
   isEmpty,
   generateUserToken,
-} from '../helpers/validations.js';
+} from '../helpers/validation.js';
 import {
   errorMessage, successMessage, status,
 } from '../helpers/status.js';
