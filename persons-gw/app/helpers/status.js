@@ -1,7 +1,7 @@
-//app/helpers/status.js
+// app/helpers/status.js
 
-const successMessage = { status: 'success' };
-const errorMessage = { status: 'error' };
+const successMessage = { status: 'success' }
+const errorMessage = { status: 'error' }
 const status = {
   success: 200,
   error: 500,
@@ -10,11 +10,11 @@ const status = {
   conflict: 409,
   created: 201,
   bad: 400,
-  nocontent: 204,
-};
+  nocontent: 204
+}
 
 export {
   successMessage,
   errorMessage,
-  status 
-};
+  status
+}

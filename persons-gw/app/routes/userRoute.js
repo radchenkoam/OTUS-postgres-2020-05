@@ -1,13 +1,11 @@
-import express from 'express';
+import express from 'express'
+import { createUser, siginUser, searchFirstnameOrLastname } from '../controllers/userController.js'
 
-import { createUser, siginUser, searchFirstnameOrLastname } from '../controllers/usersController.js';
-
-const router = express.Router();
+const router = express.Router()
 
 // users Routes
+router.post('/auth/signup', createUser)
+router.post('/auth/signin', siginUser)
+router.get('/users/first_name', searchFirstnameOrLastname)
 
-router.post('/auth/signup', createUser);
-router.post('/auth/signin', siginUser);
-router.get('/users/first_name', searchFirstnameOrLastname);
-
-export default router;
+export default router
