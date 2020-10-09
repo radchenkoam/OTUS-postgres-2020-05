@@ -14,3 +14,4 @@ router.get('/person/:searchName', verifyAuth, filterPersonByName)
 router.delete('/person/:personId', verifyAuth, deletePerson)
 
 export default router
+// module.exports = router

@@ -1,6 +1,4 @@
 /* eslint-disable camelcase */
-// app/controllers/userController.js
-
 import moment from 'moment'
 import dbQuery from '../db/dev/dbQuery.js'
 import {
@@ -39,10 +37,10 @@ const createUser = async (req, res) => {
     return res.status(status.bad).send(errorMessage)
   }
   const hashedPassword = hashPassword(password)
-  const createUserQuery = `insert into public.users 
-    (email, first_name, last_name, password, created_on)
-    values ($1, $2, $3, $4, $5)
-    returning *`
+  const createUserQuery = `insert into 
+  public.users(email, first_name, last_name, password, created_on)
+  values($1, $2, $3, $4, $5)
+  returning *;`
   const values = [
     email,
     first_name,
@@ -84,7 +82,8 @@ const siginUser = async (req, res) => {
     errorMessage.error = 'Please enter a valid Email or Password'
     return res.status(status.bad).send(errorMessage)
   }
-  const signinUserQuery = 'select * from public.users where email = $1'
+  const signinUserQuery = `select id, email, first_name, last_name, passwors, creared_on 
+  from public.users where email = $1`
   try {
     const { rows } = await dbQuery.query(signinUserQuery, [email])
     const dbResponse = rows[0]
@@ -107,7 +106,31 @@ const siginUser = async (req, res) => {
   }
 }
 
+/** SearchFirstnameOrLastname
+ * @params {Object} req
+ * @params {Object} res
+ * @returns return firstname and Lastname
+ */
+const searchFirstnameOrLastname = async (req, res) => {
+  const { first_name, last_name } = req.query
+  const searchQuery = 'select * from users where first_name =$1 OR last_name =$2 order by id;'
+  try {
+    const { rows } = await dbQuery.query(searchQuery, [first_name, last_name])
+    const dbResponse = rows
+    if (!dbResponse[0]) {
+      errorMessage.error = 'No user with such names'
+      return res.status(status.notfound).send(errorMessage)
+    }
+    successMessage.data = dbResponse
+    return res.status(status.success).send(successMessage)
+  } catch (error) {
+    errorMessage.error = 'Operation was not successful'
+    return res.status(status.error).send(errorMessage)
+  }
+}
+
 export {
   createUser,
-  siginUser
+  siginUser,
+  searchFirstnameOrLastname
 }
