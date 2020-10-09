@@ -13,13 +13,14 @@ import {
    */
 const seedUser = async (req, res) => {
   const seedUserQuery = `insert into public.users values \
-  ( default, 'radchenkoam@gmail.com', 'Andrey', 'Radchenko', '${hashPassword('DruM@140')}', true, NOW())`;
+  ( default, 'radchenkoam@gmail.com', 'Andrey', 'Radchenko', '${hashPassword('DruM@Ba$E')}', true, NOW());`;
 
   console.log(`insert into public.users values \
-  ( default, 'radchenkoam@gmail.com', 'Andrey', 'Radchenko', '${hashPassword('DruM@140')}', true, NOW())`);
+  ( default, 'radchenkoam@gmail.com', 'Andrey', 'Radchenko', '${hashPassword('DruM@Ba$E')}', true, NOW());`);
 
   try {
     const { rows } = await pool.query(seedUserQuery);
+    console.log(pool);
     const dbResponse = rows;
     if (!dbResponse) {
       return res.status(status.bad).send('Seeding Was not Successful');
