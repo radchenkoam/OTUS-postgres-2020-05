@@ -1,2 +1,2 @@
-require = require('esm')(module);
-module.exports = require('./server.js');
+/* eslint-disable no-global-assign */
+export { default } from './server.js'

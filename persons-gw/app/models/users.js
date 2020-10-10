@@ -1,5 +1,9 @@
 import moment from 'moment'
+<<<<<<< HEAD
 import { users as sql, common as csql } from '../sql'
+=======
+import { users as sql } from '../sql'
+>>>>>>> e70bd15db6c73cfef6649fc8d9189a9ded0bb418
 import {
   hashPassword,
   comparePassword,
@@ -14,7 +18,11 @@ import {
 
 const cs = {} // Reusable ColumnSet objects.
 
+<<<<<<< HEAD
 class UserManager {
+=======
+class UsersRepository {
+>>>>>>> e70bd15db6c73cfef6649fc8d9189a9ded0bb418
   constructor (db, pgp) {
     this.db = db
     this.pgp = pgp
@@ -72,7 +80,12 @@ class UserManager {
     try {
       const dbResponse = this.db.map(sql.add, values) // r => r.id)
       delete dbResponse.password
+<<<<<<< HEAD
       const token = generateUserToken(dbResponse.email, dbResponse.id, dbResponse.is_admin, dbResponse.first_name, dbResponse.last_name)
+=======
+      const token = generateUserToken(dbResponse.email, dbResponse.id, dbResponse.isAdmin, dbResponse.firstName, dbResponse.lastName)
+      console.log('!!! temporary !!!', dbResponse.email, dbResponse.id, dbResponse.isAdmin, dbResponse.firstName, dbResponse.lastName)
+>>>>>>> e70bd15db6c73cfef6649fc8d9189a9ded0bb418
       successMessage.data = dbResponse
       successMessage.data.token = token
       return res.status(status.created).send(successMessage)
@@ -101,6 +114,7 @@ class UserManager {
    * @param {*} res
    */
   async findById (req, res) {
+<<<<<<< HEAD
     this.db.any(csql.findById,
       {
         fields: 'id, email, firstName, lastName, password, isAdmin, createdOn ',
@@ -126,6 +140,14 @@ class UserManager {
       const dbResponse = this.db.oneOrNone(sql.findByFirstnameOrLastname, [firstName, lastName])
       if (!dbResponse[0]) {
         errorMessage.error = 'No user with such names'
+=======
+    const id = req.query
+
+    try {
+      const dbResponse = this.db.oneOrNone(sql.findById, +id)
+      if (!dbResponse[0]) {
+        errorMessage.error = 'No user with such id'
+>>>>>>> e70bd15db6c73cfef6649fc8d9189a9ded0bb418
         return res.status(status.notfound).send(errorMessage)
       }
       successMessage.data = dbResponse
@@ -136,6 +158,7 @@ class UserManager {
     }
   }
 
+<<<<<<< HEAD
   /**
    * Returns the total number of users
    */
@@ -183,6 +206,16 @@ class UserManager {
       errorMessage.error = 'Operation was not successful'
       return res.status(status.error).send(errorMessage)
     }
+=======
+  // Tries to find a user from name;
+  async findByFirstnameOrLastname (firstName, lastName) {
+    return this.db.oneOrNone(sql.findByFirstnameOrLastname, [firstName, lastName])
+  }
+
+  // Returns the total number of users;
+  async total () {
+    return this.db.one(sql.total, [], a => +a.count)
+>>>>>>> e70bd15db6c73cfef6649fc8d9189a9ded0bb418
   }
 }
 
@@ -198,4 +231,8 @@ function createColumnsets (pgp) {
   return cs
 }
 
+<<<<<<< HEAD
 export default UserManager
+=======
+export default UsersRepository
+>>>>>>> e70bd15db6c73cfef6649fc8d9189a9ded0bb418
