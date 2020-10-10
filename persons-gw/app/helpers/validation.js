@@ -75,7 +75,7 @@ const generateUserToken = (email, id, is_admin, first_name, last_name) => {
     first_name,
     last_name
   },
-  env.secret, { expiresIn: '3d' })
+  env.secret, { expiresIn: '1d' })
   return token
 }
 

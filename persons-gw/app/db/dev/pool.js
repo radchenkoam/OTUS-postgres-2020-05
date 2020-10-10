@@ -1,13 +1,17 @@
 // app/db/dev/pool.js
-
-import pkg from 'pg'
 import env from '../../../env.js'
 
-const { Pool } = pkg
+const { Pool } = require('pg')
 
-const databaseConfig = { connectionString: env.database_url }
-// console.log(env.database_url)
-// console.log(databaseConfig)
-const pool = new Pool(databaseConfig)
-// console.log(pool)
+const pool = new Pool({
+  user: env.user,
+  host: env.host,
+  database: env.database,
+  password: env.password,
+  port: env.port,
+  max: 100,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000
+})
+
 export default pool
