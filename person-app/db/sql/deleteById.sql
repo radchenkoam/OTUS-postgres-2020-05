@@ -1,0 +1,1 @@
+delete from ${tableName}:name where id = ${id}:values

@@ -20,10 +20,11 @@ function sql(file) {
 
 export const users = {
     create: sql('createUsersTable.sql'),
+    drop: sql('dropTable.sql'),
     empty: sql('truncateTable.sql'),
     init: sql('initSeedUser.sql'),
-    drop: sql('dropTable.sql'),
-    add: sql('insert.sql')
+    add: sql('insert.sql'),
+    deleteById: sql('deleteByid.sql')
 };
 export const persons = {
     create: sql('createPersonsTable.sql'),

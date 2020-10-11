@@ -1,2 +1,2 @@
 /* Drops the entire table */
-drop table if exists ${table}:name
+drop table if exists ${tableName}:name

@@ -1,1 +1,1 @@
-select ${fields}:name from ${table}:name where id = ${id}:values
+select ${fields}:name from ${tableName}:name where id = ${id}:values

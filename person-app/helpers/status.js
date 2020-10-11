@@ -1,5 +1,3 @@
-// app/helpers/status.js
-
 const successMessage = { status: 'success' }
 const errorMessage = { status: 'error' }
 const status = {

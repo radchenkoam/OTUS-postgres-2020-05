@@ -1,51 +1,41 @@
-import express from 'express';
-import { db } from './db';
+import { db } from './db'
+import env from './env.js'
+import { hashPassword } from '../helpers/validation.js'
 
-/////////////////////////////////////////////////////////////////////////////
-// IMPORTANT:
-//
-// Do not re-use the HTTP-service part of the code from here!
-// It is an over-simplified HTTP service with just GET handlers, because:
-//
-// 1. This demo is to be tested by typing URL-s manually in the browser;
-// 2. The focus here is on a proper database layer only, not an HTTP service.
-/////////////////////////////////////////////////////////////////////////////
-
-const app = express();
+const express = require('express')
+const app = express()
+// Add middleware for parsing URL encoded bodies (which are usually sent by browser)
+app.use(cors())
+// Add middleware for parsing JSON and urlencoded data and populating `req.body`
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
 //////////////////////////////////////////////
 // Users Web API
 //////////////////////////////////////////////
-
 // create table Users:
 GET('/users/create', () => db.users.create());
-
-// add some initial records:
-GET('/users/init', () => db.users.init());
-
-// remove all records from the table:
-GET('/users/empty', () => db.users.empty());
-
 // drop the table:
 GET('/users/drop', () => db.users.drop());
-
+// remove all records from the table:
+GET('/users/empty', () => db.users.empty());
+// add seed user
+GET('/users/init', () => db.users.init(hashPassword(env.secret)));
 // add a new user, if it doesn't exist yet, and return the object:
-GET('/users/add/:name', req => {
+POST('/users/add/', req => {
     return db.task('add-user', async t => {
-        const user = await t.users.findByName(req.params.name);
-        return user || t.users.add(req.params.name);
+        const user = await t.users.findByEmail(req.body.email);
+        return user || t.users.add(req.body);
     });
 });
-
+// remove a user by id:
+DELETE('/users/remove/:id', req => db.users.remove(req.params.id));
 // find a user by id:
 GET('/users/find/:id', req => db.users.findById(req.params.id));
-
-// remove a user by id:
-GET('/users/remove/:id', req => db.users.remove(req.params.id));
-
+// find a user by email:
+GET('/users/find/:email', req => db.users.findByEmail(req.params.email));
 // get all users:
 GET('/users/all', () => db.users.all());
-
 // count all users:
 GET('/users/total', () => db.users.total());
 
@@ -89,6 +79,24 @@ GET('/products/total', () => db.products.total());
 // Generic GET handler;
 function GET(url, handler) {
     app.get(url, async (req, res) => {
+        try {
+            const data = await handler(req);
+            res.json({
+                success: true,
+                data
+            });
+        } catch (error) {
+            res.json({
+                success: false,
+                error: error.message || error
+            });
+        }
+    });
+}
+
+// Generic POST handler;
+function POST(url, handler) {
+    app.post(url, async (req, res) => {
         try {
             const data = await handler(req);
             res.json({

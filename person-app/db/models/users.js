@@ -1,3 +1,4 @@
+import { hashPassword } from '../helpers/validation.js'
 import { users as sql } from '../sql';
 
 const cs = {}; // Reusable ColumnSet objects.
@@ -7,8 +8,10 @@ const cs = {}; // Reusable ColumnSet objects.
  */
 class UsersManager {
     constructor(db, pgp) {
-        this.db = db;
-        this.pgp = pgp;
+        this.db = db
+        this.pgp = pgp
+        this.tableName = 'public.users'
+        this.fields = 'id, email, "name", "password", is_admin, created_on'
 
         // set-up all ColumnSet objects, if needed:
         createColumnsets(pgp);
@@ -19,50 +22,54 @@ class UsersManager {
         return this.db.none(sql.create);
     }
 
-    // Removes all records from the table;
-    async empty(tableName) {
-        return this.db.none(sql.empty, tableName);
-    }
-
-    // Initializes the table with some user records, and return their id-s;
-    async init() {
-        return this.db.map(sql.init, [], row => row.id);
-    }
-
     // Drops the table;
     async drop() {
-        return this.db.none(sql.drop);
+        return this.db.none(sql.drop, [this.tableName]);
     }
 
+    // Removes all records from the table;
+    async empty() {
+        return this.db.none(sql.empty, [this.tableName]);
+    }
+
+    // Initializes the table with seed user;
+    async init(hashPwd) {
+        return this.db.none(sql.init, [hashPwd]);
+    }
 
     // Adds a new user, and returns the new object;
-    async add(name) {
-        return this.db.one(sql.add, name);
+    async add(r) {
+        return this.db.one(sql.add, [
+            this.tableName, 
+            this.fields,
+            [r.id, r.email, r.name, hashPassword(r.password), r.is_admin || false, moment(new Date())],
+            '*'
+        ]);
     }
 
     // Tries to delete a user by id, and returns the number of records deleted;
     async remove(id) {
-        return this.db.result('DELETE FROM users WHERE id = $1', +id, r => r.rowCount);
+        return this.db.result(sql.deleteById, +id, r => r.rowCount);
     }
 
     // Tries to find a user from id;
     async findById(id) {
-        return this.db.oneOrNone('SELECT * FROM users WHERE id = $1', +id);
+        return this.db.oneOrNone(sql.selectById, [this.fields, this.tableName, +id]);
     }
 
-    // Tries to find a user from name;
-    async findByName(name) {
-        return this.db.oneOrNone('SELECT * FROM users WHERE name = $1', name);
+    // Tries to find a user from email;
+    async findByEmail(email) {
+        return this.db.oneOrNone(sql.selectByEmail, [this.fields, this.tableName, email]);
     }
 
     // Returns all user records;
     async all() {
-        return this.db.any('SELECT * FROM users');
+        return this.db.any(sql.selectAll, [this.tableName, this.fields]);
     }
 
     // Returns the total number of users;
     async total() {
-        return this.db.one('SELECT count(*) FROM users', [], a => +a.count);
+        return this.db.one(sql.selectAll, [this.tableName, 'count(*)'], a => +a.count);
     }
 }
 
