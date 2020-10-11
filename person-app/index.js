@@ -14,31 +14,31 @@ app.use(express.json())
 //////////////////////////////////////////////
 // Users Web API
 //////////////////////////////////////////////
-// create table Users:
+// create table Users
 GET('/users/create', () => db.users.create());
-// drop the table:
+// drop the table
 GET('/users/drop', () => db.users.drop());
-// remove all records from the table:
-GET('/users/empty', () => db.users.empty());
-// add seed user
-GET('/users/init', () => db.users.init(hashPassword(env.secret)));
-// add a new user, if it doesn't exist yet, and return the object:
+// add a new user, if it doesn't exist yet, and return the object
 POST('/users/add/', req => {
     return db.task('add-user', async t => {
         const user = await t.users.findByEmail(req.body.email);
         return user || t.users.add(req.body);
     });
 });
-// remove a user by id:
+// remove a user by id
 DELETE('/users/remove/:id', req => db.users.remove(req.params.id));
-// find a user by id:
-GET('/users/find/:id', req => db.users.findById(req.params.id));
-// find a user by email:
-GET('/users/find/:email', req => db.users.findByEmail(req.params.email));
-// get all users:
+// remove all records from the table
+DELETE('/users/empty', () => db.users.empty());
+// get all users
 GET('/users/all', () => db.users.all());
-// count all users:
+// count all users
 GET('/users/total', () => db.users.total());
+// find a user by id
+GET('/users/find/:id', req => db.users.findById(req.params.id));
+// find a user by email
+GET('/users/find/:email', req => db.users.findByEmail(req.params.email));
+// add seed user
+GET('/users/init', () => db.users.init(hashPassword(env.secret)));
 
 //////////////////////////////////////////////
 // Persons Web API

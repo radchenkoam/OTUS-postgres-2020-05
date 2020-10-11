@@ -1,2 +1,2 @@
 /* Inserts a new User record. */
-insert into ${tableName}:name (${fields}:name) values (${values}:values) returning ${returning}:name
+insert into ${tableName:name} (${values:name}) values (${values:csv}) ${returning:raw}

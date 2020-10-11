@@ -1,1 +1,0 @@
-select ${fields}:name from ${tableName}:name
