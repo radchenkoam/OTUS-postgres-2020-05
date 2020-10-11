@@ -19,6 +19,11 @@ class UsersManager {
         return this.db.none(sql.create);
     }
 
+    // Removes all records from the table;
+    async empty(tableName) {
+        return this.db.none(sql.empty, tableName);
+    }
+
     // Initializes the table with some user records, and return their id-s;
     async init() {
         return this.db.map(sql.init, [], row => row.id);
@@ -29,10 +34,6 @@ class UsersManager {
         return this.db.none(sql.drop);
     }
 
-    // Removes all records from the table;
-    async empty() {
-        return this.db.none(sql.empty);
-    }
 
     // Adds a new user, and returns the new object;
     async add(name) {
@@ -81,4 +82,4 @@ function createColumnsets(pgp) {
     return cs;
 }
 
-export default UsersRepository;
+export default UsersManager;

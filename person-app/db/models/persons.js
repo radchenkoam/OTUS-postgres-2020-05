@@ -1,4 +1,4 @@
-const {products: sql} = require('../sql');
+import { persons as sql } from '../sql';
 
 const cs = {}; // Reusable ColumnSet objects.
 
@@ -6,7 +6,7 @@ const cs = {}; // Reusable ColumnSet objects.
  This repository mixes hard-coded and dynamic SQL, primarily to show a diverse example of using both.
  */
 
-class ProductsRepository {
+class PersonsManager {
     constructor(db, pgp) {
         this.db = db;
         this.pgp = pgp;
@@ -79,4 +79,4 @@ function createColumnsets(pgp) {
     return cs;
 }
 
-module.exports = ProductsRepository;
+export default PersonsManager;
