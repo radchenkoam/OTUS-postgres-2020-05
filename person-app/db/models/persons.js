@@ -1,17 +1,10 @@
 import { persons as sql } from '../sql';
-
 const cs = {}; // Reusable ColumnSet objects.
-
-/*
- This repository mixes hard-coded and dynamic SQL, primarily to show a diverse example of using both.
- */
 
 class PersonsManager {
     constructor(db, pgp) {
         this.db = db;
         this.pgp = pgp;
-
-        // set-up all ColumnSet objects, if needed:
         createColumnsets(pgp);
     }
 
@@ -22,12 +15,12 @@ class PersonsManager {
 
     // Drops the table;
     async drop() {
-        return this.db.none(sql.drop);
+        return this.db.none(sql.drop, { tableName: cs.table });
     }
 
     // Removes all records from the table;
     async empty() {
-        return this.db.none(sql.empty);
+        return this.db.none(sql.empty, { tableName: cs.table });
     }
 
     // Adds a new record and returns the full object;
@@ -41,7 +34,7 @@ class PersonsManager {
 
     // Tries to delete a product by id, and returns the number of records deleted;
     async remove(id) {
-        return this.db.result('DELETE FROM products WHERE id = $1', +id, r => r.rowCount);
+        return this.db.result('DELETE FROM persons WHERE id = $1', +id, r => r.rowCount);
     }
 
     // Tries to find a user product from user id + product name;
@@ -54,27 +47,25 @@ class PersonsManager {
 
     // Returns all product records;
     async all() {
-        return this.db.any('SELECT * FROM products');
+        return this.db.any('SELECT * FROM persons');
     }
 
-    // Returns the total number of products;
+    // Returns the total number of persons;
     async total() {
-        return this.db.one('SELECT count(*) FROM products', [], a => +a.count);
+        return this.db.one('SELECT count(*) FROM persons', [], a => +a.count);
     }
 }
 
-//////////////////////////////////////////////////////////
-// Example of statically initializing ColumnSet objects:
-
+/** 
+ * Statically initializing ColumnSet objects
+ * @param {*} pgp 
+ */
 function createColumnsets(pgp) {
-    // create all ColumnSet objects only once:
     if (!cs.insert) {
-        // Type TableName is useful when schema isn't default "public" ,
-        // otherwise you can just pass in a string for the table name.
-        const table = new pgp.helpers.TableName({table: 'products', schema: 'public'});
-
-        cs.insert = new pgp.helpers.ColumnSet(['name'], {table});
-        cs.update = cs.insert.extend(['?id', '?user_id']);
+        const table = new pgp.helpers.TableName({table: 'persons', schema: 'public'});
+        cs.insert = new pgp.helpers.ColumnSet([
+            'id^', 'name', 'age', 'created_on'
+        ], {table});
     }
     return cs;
 }

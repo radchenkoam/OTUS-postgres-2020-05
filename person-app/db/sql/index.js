@@ -21,16 +21,21 @@ function sql(file) {
 export const users = {
     create: sql('createUsersTable.sql'),
     drop: sql('dropTable.sql'),
-    empty: sql('truncateTable.sql'),
-    init: sql('initSeedUser.sql'),
     add: sql('insert.sql'),
-    deleteById: sql('deleteByid.sql')
+    remove: sql('deleteByid.sql'),
+    empty: sql('truncateTable.sql'),
+    all: sql('selectAll.sql'),
+    total: sql('selectAll.sql'),
+    findById: sql('selectById.sql'),
+    findByEmail: sql('selectByEmail.sql'),
+    init: sql('initSeedUser.sql')    
 };
 export const persons = {
     create: sql('createPersonsTable.sql'),
-    empty: sql('truncateTable.sql'),
     drop: sql('dropTable.sql'),
-    findById: sql('selectById.sql'),
-    add: sql('insert.sql')
+    add: sql('insert.sql'), 
+    remove: sql('deleteByid.sql'),
+    empty: sql('truncateTable.sql'),
+    findById: sql('selectById.sql')
 };
 

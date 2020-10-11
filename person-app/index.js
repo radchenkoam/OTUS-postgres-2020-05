@@ -1,6 +1,7 @@
 import { db } from './db'
+import { hashPassword } from './helpers/validation.js'
+import { GET, POST, DELETE } from './helpers/handler.js'
 import env from './env.js'
-import { hashPassword } from '../helpers/validation.js'
 
 const express = require('express')
 const app = express()
@@ -40,80 +41,34 @@ GET('/users/all', () => db.users.all());
 GET('/users/total', () => db.users.total());
 
 //////////////////////////////////////////////
-// Products Web API
+// Persons Web API
 //////////////////////////////////////////////
-
-// create table Products:
-GET('/products/create', () => db.products.create());
-
+// create table Persons:
+GET('/persons/create', () => db.persons.create());
 // drop the table:
-GET('/products/drop', () => db.products.drop());
-
-// remove all products:
-GET('/products/empty', () => db.products.empty());
-
-// add a new user product, if it doesn't exist yet, and return the object:
-GET('/products/add/:userId/:name', req => {
-    return db.task('add-product', async t => {
-        const product = await t.products.find(req.params);
-        return product || t.products.add(req.params);
+GET('/persons/drop', () => db.persons.drop());
+// remove all persons:
+GET('/persons/empty', () => db.persons.empty());
+// add a new user person, if it doesn't exist yet, and return the object:
+GET('/persons/add/:userId/:name', req => {
+    return db.task('add-person', async t => {
+        const person = await t.persons.find(req.params);
+        return person || t.persons.add(req.params);
     });
 });
 
-// find a product by user id + product name id:
-GET('/products/find/:userId/:name', req => db.products.find(req.params));
+// find a person by user id + person name id:
+GET('/persons/find/:userId/:name', req => db.persons.find(req.params));
 
-// remove a product by id:
-GET('/products/remove/:id', req => db.products.remove(req.params.id));
+// remove a person by id:
+GET('/persons/remove/:id', req => db.persons.remove(req.params.id));
 
-// get all products:
-GET('/products/all', () => db.products.all());
+// get all persons:
+GET('/persons/all', () => db.persons.all());
 
-// count all products:
-GET('/products/total', () => db.products.total());
+// count all persons:
+GET('/persons/total', () => db.persons.total());
 
-/////////////////////////////////////////////
-// Express/server part;
-/////////////////////////////////////////////
-
-// Generic GET handler;
-function GET(url, handler) {
-    app.get(url, async (req, res) => {
-        try {
-            const data = await handler(req);
-            res.json({
-                success: true,
-                data
-            });
-        } catch (error) {
-            res.json({
-                success: false,
-                error: error.message || error
-            });
-        }
-    });
-}
-
-// Generic POST handler;
-function POST(url, handler) {
-    app.post(url, async (req, res) => {
-        try {
-            const data = await handler(req);
-            res.json({
-                success: true,
-                data
-            });
-        } catch (error) {
-            res.json({
-                success: false,
-                error: error.message || error
-            });
-        }
-    });
-}
-
-const port = 5000;
-
-app.listen(port, () => {
-    console.log('\nReady for GET requests on http://localhost:' + port);
-});
+app.listen(env.port_api).on('listening', () => {
+    console.log(`🚀 are live on ${env.port_api}`)
+  })
