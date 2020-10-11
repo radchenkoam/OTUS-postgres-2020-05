@@ -1,5 +1,5 @@
 // Renaming and exporting all repository classes:
 module.exports = {
-  Users: require('./users'),
+  Users: require('./users').default,
   Products: require('./products')
 };

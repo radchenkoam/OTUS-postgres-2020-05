@@ -1,0 +1,1 @@
+select ${fields}:name from ${table}:name where id = ${id}:values
