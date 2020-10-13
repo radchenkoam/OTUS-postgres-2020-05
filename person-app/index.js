@@ -1,11 +1,13 @@
-import { db } from './db.js'
-import { GET, POST, DELETE } from './helpers/handler.js'
+import pkg from 'express'
+import { db } from './db/db.js'
 import env from './env.js'
 
-const express = require('express')
+const express = pkg
 const app = express()
+
 // Add middleware for parsing URL encoded bodies (which are usually sent by browser)
-app.use(cors())
+// app.use(cors())
+
 // Add middleware for parsing JSON and urlencoded data and populating `req.body`
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
@@ -66,7 +68,64 @@ GET('/persons/find/:id', req => db.persons.findById(req.params));
 // 9. find a person by user name
 GET('/persons/find/:name', req => db.persons.findByName(req.params));
 
-
 app.listen(env.port_api).on('listening', () => {
     console.log(`🚀 are live on ${env.port_api}`)
-  })
+})
+
+/////////////////////////////////////////////
+// Express/server part;
+/////////////////////////////////////////////
+
+// Generic GET handler;
+function GET(url, handler) {
+    app.get(url, async (req, res) => {
+        try {
+            const data = await handler(req);
+            res.json({
+                success: true,
+                data
+            });
+        } catch (error) {
+            res.json({
+                success: false,
+                error: error.message || error
+            });
+        }
+    });
+}
+  
+// Generic POST handler;
+function POST(url, handler) {
+    app.post(url, async (req, res) => {
+        try {
+            const data = await handler(req);
+            res.json({
+                success: true,
+                data
+            });
+        } catch (error) {
+            res.json({
+                success: false,
+                error: error.message || error
+            });
+        }
+    });
+}
+  
+// Generic DELETE handler;
+function DELETE(url, handler) {
+    app.delete(url, async (req, res) => {
+        try {
+            const data = await handler(req);
+            res.json({
+                success: true,
+                data
+            });
+        } catch (error) {
+            res.json({
+                success: false,
+                error: error.message || error
+            });
+        }
+    });
+}

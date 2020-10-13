@@ -1,1 +1,1 @@
-delete from ${tableName:name} ${filterExp:raw}
+delete from ${tableName:raw} ${filterExp:raw}

@@ -1,4 +1,8 @@
-import { persons } from '../../helpers/sql.js'
+import pkg from 'faker'
+import { query } from '../../helpers/sql.js'
+
+const faker = pkg
+faker.locale = "ru"
 
 const cs = {} // Reusable ColumnSet objects.
 
@@ -9,51 +13,81 @@ class PersonsManager {
         createColumnsets(pgp)
     }
 
+    // Returns the age given the date of birth
+    getAge(birthday) {
+        const millis = Date.now() - Date.parse(birthday);
+        return new Date(millis).getFullYear() - 1970;
+    }
+
     // 1. Creates the table
     async create() {
-        return this.db.none(persons.create)
+        return this.db.none(query.createPersonsTable)
     }
 
-    // Drops the table
+    // 2. Drops the table
     async drop() {
-        return this.db.none(persons.drop, { tableName: cs.table })
+        return this.db.none(query.drop, { tableName: cs.table })
     }
 
-    // Removes all records from the table
-    async empty() {
-        return this.db.none(persons.empty, { tableName: cs.table })
+    // 3. Adds a new or fake person and returns the full object
+    async add(r) {
+        return this.db.one(
+            query.insert, 
+            {
+                tableName: cs.table, 
+                values: { 
+                    name: r.name || faker.name.findName(), 
+                    age: age || this.getAge(faker.date.between('1950-01-01', '2013-12-31')), 
+                    created_on: r.created_on || moment(new Date())
+                },
+                returnExp: 'returning *'
+            }
+        )
     }
 
-    // Adds a new record and returns the full object
-    // It is also an example of mapping HTTP requests into query parameters
-    async add(values) {
-        return this.db.one(persons.add, {
-            userId: +values.userId,
-            productName: values.name
-        })
-    }
-
-    // Tries to delete a product by id, and returns the number of records deleted
+    // 4. Tries to delete a person by id, and returns the number of records deleted
     async remove(id) {
-        return this.db.result('DELETE FROM persons WHERE id = $1', +id, r => r.rowCount)
+        return this.db.result(
+            query.delete, 
+            { 
+                tableName: cs.tableName, 
+                filterExp: pgp.as.format('where id = $1', [+id]) 
+            }, 
+            r => r.rowCount
+        )
     }
 
-    // Tries to find a user product from user id + product name
-    async find(values) {
-        return this.db.oneOrNone(persons.find, {
-            userId: +values.userId,
-            productName: values.name
+    // 5. Removes all records from the table
+    async empty() {
+        return this.db.none(query.truncate, { tableName: cs.table })
+    }
+
+    // 6. Returns all person records
+    async all() {
+        return this.db.any(query.select, { tableName: cs.table, fields: cs.names })
+    }
+
+    // 7. Returns the total number of persons
+    async total() {
+        return this.db.one(query.select, { tableName: cs.table, fields: 'count(*)' }, a => +a.count)
+    }
+
+    // 8. Tries to find a person from id
+    async findById(id) {
+        return this.db.oneOrNone(query.select, { 
+            tableName: cs.table, 
+            fields: cs.names, 
+            filterExp: pgp.as.format('where id = $1', [+id])
         })
     }
 
-    // Returns all product records
-    async all() {
-        return this.db.any('SELECT * FROM persons')
-    }
-
-    // Returns the total number of persons
-    async total() {
-        return this.db.one('SELECT count(*) FROM persons', [], a => +a.count)
+    // 9. Tries to find a person from name
+    async findByName(name) {
+        return this.db.oneOrNone(query.select, { 
+            tableName: cs.table, 
+            fields: cs.names, 
+            filterExp: pgp.as.format('where name = $1', [name])
+        })
     }
 }
 
