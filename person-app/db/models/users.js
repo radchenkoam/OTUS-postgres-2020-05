@@ -44,10 +44,10 @@ class UsersManager {
     // 4. Tries to delete a user by id, and returns the number of records deleted
     async remove(id) {
         return this.db.result(
-            query.del, 
+            query.delete, 
             { 
                 tableName: cs.select.table, 
-                filterExp: pgp.as.format('where id = $1', [+id]) 
+                filterExp: this.pgp.as.format('where id = $1', [+id])
             }, 
             r => r.rowCount
         )
@@ -73,7 +73,7 @@ class UsersManager {
         return this.db.oneOrNone(query.select, { 
             tableName: cs.select.table, 
             fields: cs.select.names, 
-            filterExp: pgp.as.format('where id = $1', [+id])
+            filterExp: this.pgp.as.format('where id = $1', [+id])
         })
     }
 
@@ -82,7 +82,7 @@ class UsersManager {
         return this.db.oneOrNone(query.select, { 
             tableName: cs.select.table, 
             fields: cs.select.names, 
-            filterExp: pgp.as.format('where email = $1', [email])
+            filterExp: this.pgp.as.format('where email = $1', [email])
         })
     }
 

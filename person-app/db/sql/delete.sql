@@ -1,0 +1,1 @@
+delete from ${tableName:raw} ${filterExp:raw}

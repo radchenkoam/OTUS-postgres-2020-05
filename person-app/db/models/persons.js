@@ -48,12 +48,11 @@ class PersonsManager {
 
     // 4. Tries to delete a person by id, and returns the number of records deleted
     async remove(id) {
-        console.log(id)
         return this.db.result(
-            query.del, 
+            query.delete, 
             { 
                 tableName: cs.select.table, 
-                filterExp: pgp.as.format('where id = $1', [+id]) 
+                filterExp: this.pgp.as.format('where id = $1', [+id]) 
             }, 
             r => r.rowCount
         )
@@ -66,12 +65,12 @@ class PersonsManager {
 
     // 6. Returns all person records
     async all() {
-        return this.db.any(query.select, { tableName: cs.select.table, fields: cs.select.names })
+        return this.db.any(query.select, { tableName: cs.select.table, fields: cs.select.names, filterExp: '' })
     }
 
     // 7. Returns the total number of persons
     async total() {
-        return this.db.one(query.select, { tableName: cs.select.table, fields: 'count(*)' }, a => +a.count)
+        return this.db.one(query.select, { tableName: cs.select.table, fields: 'count(*)' , filterExp: '' }, a => +a.count)
     }
 
     // 8. Tries to find a person from id
@@ -79,7 +78,7 @@ class PersonsManager {
         return this.db.oneOrNone(query.select, { 
             tableName: cs.select.table, 
             fields: cs.select.names, 
-            filterExp: pgp.as.format('where id = $1', [+id])
+            filterExp: this.pgp.as.format('where id = $1', [+id])
         })
     }
 
@@ -88,7 +87,7 @@ class PersonsManager {
         return this.db.oneOrNone(query.select, { 
             tableName: cs.select.table, 
             fields: cs.select.names, 
-            filterExp: pgp.as.format('where name = $1', [name])
+            filterExp: this.pgp.as.format('where name = $1', [name])
         })
     }
 }

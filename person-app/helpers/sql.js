@@ -10,7 +10,7 @@ export const query = {
   createPersonsTable: sql('/db/sql/createPersonsTable.sql'),
   drop: sql('/db/sql/drop.sql'),
   insert: sql('/db/sql/insert.sql'),
-  del: sql('/db/sql/del.sql'),
+  delete: sql('/db/sql/delete.sql'),
   truncate: sql('/db/sql/truncate.sql'),
   select: sql('/db/sql/select.sql')
 }

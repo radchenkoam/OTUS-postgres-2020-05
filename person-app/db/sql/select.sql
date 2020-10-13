@@ -1,1 +1,1 @@
-select ${fields:name} from ${tableName:raw} ${filterExp:raw}
+select ${fields:raw} from ${tableName:raw} ${filterExp:raw}
