@@ -1,0 +1,1 @@
+delete from ${tableName:raw} where ${filterExp:raw}

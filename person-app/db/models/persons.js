@@ -1,3 +1,4 @@
+import moment from 'moment'
 import pkg from 'faker'
 import { query } from '../../helpers/sql.js'
 
@@ -26,19 +27,19 @@ class PersonsManager {
 
     // 2. Drops the table
     async drop() {
-        return this.db.none(query.drop, { tableName: cs.table })
+        return this.db.none(query.drop, { tableName: cs.select.table })
     }
 
     // 3. Adds a new or fake person and returns the full object
-    async add(r) {
+    async add(b) {
         return this.db.one(
             query.insert, 
             {
-                tableName: cs.table, 
+                tableName: cs.insert.table, 
                 values: { 
-                    name: r.name || faker.name.findName(), 
-                    age: age || this.getAge(faker.date.between('1950-01-01', '2013-12-31')), 
-                    created_on: r.created_on || moment(new Date())
+                    name: b.name || faker.name.findName(), 
+                    age: b.age || this.getAge(faker.date.between('1950-01-01', '2013-12-31')), 
+                    created_on: b.created_on || moment().utc()
                 },
                 returnExp: 'returning *'
             }
@@ -47,10 +48,11 @@ class PersonsManager {
 
     // 4. Tries to delete a person by id, and returns the number of records deleted
     async remove(id) {
+        console.log(id)
         return this.db.result(
-            query.delete, 
+            query.del, 
             { 
-                tableName: cs.tableName, 
+                tableName: cs.select.table, 
                 filterExp: pgp.as.format('where id = $1', [+id]) 
             }, 
             r => r.rowCount
@@ -59,24 +61,24 @@ class PersonsManager {
 
     // 5. Removes all records from the table
     async empty() {
-        return this.db.none(query.truncate, { tableName: cs.table })
+        return this.db.none(query.truncate, { tableName: cs.select.table })
     }
 
     // 6. Returns all person records
     async all() {
-        return this.db.any(query.select, { tableName: cs.table, fields: cs.names })
+        return this.db.any(query.select, { tableName: cs.select.table, fields: cs.select.names })
     }
 
     // 7. Returns the total number of persons
     async total() {
-        return this.db.one(query.select, { tableName: cs.table, fields: 'count(*)' }, a => +a.count)
+        return this.db.one(query.select, { tableName: cs.select.table, fields: 'count(*)' }, a => +a.count)
     }
 
     // 8. Tries to find a person from id
     async findById(id) {
         return this.db.oneOrNone(query.select, { 
-            tableName: cs.table, 
-            fields: cs.names, 
+            tableName: cs.select.table, 
+            fields: cs.select.names, 
             filterExp: pgp.as.format('where id = $1', [+id])
         })
     }
@@ -84,8 +86,8 @@ class PersonsManager {
     // 9. Tries to find a person from name
     async findByName(name) {
         return this.db.oneOrNone(query.select, { 
-            tableName: cs.table, 
-            fields: cs.names, 
+            tableName: cs.select.table, 
+            fields: cs.select.names, 
             filterExp: pgp.as.format('where name = $1', [name])
         })
     }
@@ -98,11 +100,11 @@ class PersonsManager {
 function createColumnsets(pgp) {
     if (!cs.insert) {
         const table = new pgp.helpers.TableName({table: 'persons', schema: 'public'})
-        cs.insert = new pgp.helpers.ColumnSet([
-            'id^', 'name', 'age', 'created_on'
-        ], {table})
+        cs.insert = new pgp.helpers.ColumnSet(['name', 'age', 'created_on'], {table})
+        cs.update = cs.insert.extend(['?id'])
+        cs.select = cs.update
     }
-    return cs
+    return cs;
 }
 
 export default PersonsManager

@@ -24,17 +24,17 @@ class UsersManager {
     }
 
     // 3. Adds a new user, and returns the new object
-    async add(r) {
+    async add(b) {
         return this.db.one(
             query.insert, 
             {
                 tableName: cs.insert.table, 
                 values: { 
-                    email: r.email, 
-                    name: r.name, 
-                    password: hashPassword(r.password), 
-                    is_admin: r.is_admin || false, 
-                    created_on: r.created_on || moment(new Date())
+                    email: b.email, 
+                    name: b.name, 
+                    password: hashPassword(b.password), 
+                    is_admin: b.is_admin || false, 
+                    created_on: b.created_on || moment(new Date()).utc()
                 },
                 returnExp: 'returning *'
             }
@@ -44,7 +44,7 @@ class UsersManager {
     // 4. Tries to delete a user by id, and returns the number of records deleted
     async remove(id) {
         return this.db.result(
-            query.delete, 
+            query.del, 
             { 
                 tableName: cs.select.table, 
                 filterExp: pgp.as.format('where id = $1', [+id]) 
