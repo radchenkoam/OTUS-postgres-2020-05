@@ -109,6 +109,15 @@ class UsersManager {
     async dropTable() {
         return this.db.none(query.drop, { tableName: cs.select.table })
     }
+
+    // Tries to find a user by email
+    async findByEmail(email) {
+        return this.db.oneOrNone(query.select, { 
+            tableName: cs.select.table, 
+            fields: cs.select.names, 
+            filterExp: this.pgp.as.format('where email = $1', [email])
+        })
+    }
 }
 
 /** Statically initializing ColumnSet objects

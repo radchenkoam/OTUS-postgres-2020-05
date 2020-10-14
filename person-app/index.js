@@ -19,7 +19,7 @@ app.use(express.json())
 GET('/user', req => db.users.find(req.query))
 // 2. Tries to find a user by id
 GET('/user/:id', req => db.users.findById(req.params.id))
-// 3. Adds a new user, and returns the new object
+// 3. Adds a new user, and returns the new object or returns exists !!! incorrect ???
 POST('/user', req => {
     return db.task('add-user', async t => {
         const user = await t.users.findByEmail(req.body.email)
