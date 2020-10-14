@@ -20,14 +20,25 @@ class PersonsManager {
         return new Date(millis).getFullYear() - 1970;
     }
 
-    // 1. Creates the table
-    async create() {
-        return this.db.none(query.createPersonsTable)
+    // 1. Returns all person records or person records by query
+    async find(p) {
+        return this.db.any(
+            query.select, 
+            {
+                tableName: cs.select.table, 
+                fields: cs.select.names, 
+                filterExp: JSON.stringify(p) === '{}' ? '' : this.pgp.as.format('where $1:name = $1:csv', [p])
+            }
+        )
     }
 
-    // 2. Drops the table
-    async drop() {
-        return this.db.none(query.drop, { tableName: cs.select.table })
+    // 2. Tries to find a person by id
+    async findById(id) {
+        return this.db.oneOrNone(query.select, { 
+            tableName: cs.select.table, 
+            fields: cs.select.names, 
+            filterExp: this.pgp.as.format('where id = $1', [+id])
+        })
     }
 
     // 3. Adds a new or fake person and returns the full object
@@ -58,37 +69,32 @@ class PersonsManager {
         )
     }
 
-    // 5. Removes all records from the table
-    async empty() {
+    // 5. Returns the total number of persons
+    async total() {
+        return this.db.one(
+            query.select, 
+            {
+                tableName: cs.select.table, 
+                fields: 'count(*)' , 
+                filterExp: '' 
+            }, 
+            a => +a.count
+        )
+    }
+
+    // Removes all records from the table
+    async emptyTable() {
         return this.db.none(query.truncate, { tableName: cs.select.table })
     }
 
-    // 6. Returns all person records
-    async all() {
-        return this.db.any(query.select, { tableName: cs.select.table, fields: cs.select.names, filterExp: '' })
+    // DDL. Creates the persons table
+    async createTable() {
+        return this.db.none(query.createPersonsTable)
     }
 
-    // 7. Returns the total number of persons
-    async total() {
-        return this.db.one(query.select, { tableName: cs.select.table, fields: 'count(*)' , filterExp: '' }, a => +a.count)
-    }
-
-    // 8. Tries to find a person from id
-    async findById(id) {
-        return this.db.oneOrNone(query.select, { 
-            tableName: cs.select.table, 
-            fields: cs.select.names, 
-            filterExp: this.pgp.as.format('where id = $1', [+id])
-        })
-    }
-
-    // 9. Tries to find a person from name
-    async findByName(name) {
-        return this.db.oneOrNone(query.select, { 
-            tableName: cs.select.table, 
-            fields: cs.select.names, 
-            filterExp: this.pgp.as.format('where name = $1', [name])
-        })
+    // DDL. Drops the persons table
+    async dropTable() {
+        return this.db.none(query.drop, { tableName: cs.select.table })
     }
 }
 

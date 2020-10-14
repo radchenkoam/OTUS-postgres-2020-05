@@ -9,6 +9,9 @@ const initOptions = {
   extend (obj, dc) {
     obj.users = new UsersManager(obj, pgp)
     obj.persons = new PersonsManager(obj, pgp)
+  },
+  query(e) {
+    console.log('QUERY:', e.query);
   }
 }
 

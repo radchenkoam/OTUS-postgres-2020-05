@@ -44,24 +44,24 @@ GET('/users/init', () => db.users.init(env.secret))
 //////////////////////////////////////////////
 // Persons Web API
 //////////////////////////////////////////////
-// 1. create table Persons:
-GET('/persons/create', () => db.persons.create())
-// 2. drop the table:
-GET('/persons/drop', () => db.persons.drop())
-// 3. add a new person, if it doesn't exist yet, and return the object:
-POST('/persons/add', req => db.persons.add(req.body))
-// 4. remove a person by id:
-DELETE('/persons/remove/:id', req => db.persons.remove(req.params.id))
-// 5. remove all persons:
-DELETE('/persons/empty', () => db.persons.empty())
-// 6. get all persons:
-GET('/persons/all', () => db.persons.all())
-// 7. count all persons:
+// 1. Returns all person records or person records by query
+GET('/person', req => db.persons.find(req.query))
+// 2. Tries to find a person by id
+GET('/person/:id', req => db.persons.findById(req.params.id))
+// 3. Adds a new or fake person and returns the full object
+POST('/person', req => db.persons.add(req.body))
+// 4. Tries to delete a person by id
+DELETE('/person/:id', req => db.persons.remove(req.params.id))
+// 5. Returns the total number of persons
 GET('/persons/total', () => db.persons.total())
-// 8. find a person by user id
-GET('/persons/id/:id', req => db.persons.findById(req.params.id))
-// 9. find a person by user name
-GET('/persons/name/:name', req => db.persons.findByName(req.params.name))
+
+// Remove all persons
+DELETE('/persons/empty', () => db.persons.emptyTable())
+// DDL. Creates the persons table
+GET('/persons/table', () => db.persons.createTable())
+// DDL. Drops the persons table
+DELETE('/persons/table', () => db.persons.dropTable())
+
 
 app.listen(env.port_api).on('listening', () => {
     console.log(`🚀 are live on ${env.port_api}`)
