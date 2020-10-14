@@ -15,31 +15,30 @@ app.use(express.json())
 //////////////////////////////////////////////
 // Users Web API
 //////////////////////////////////////////////
-// 1. create table Users
-GET('/users/create', () => db.users.create())
-// 2. drop the table
-GET('/users/drop', () => db.users.drop())
-// 3. add a new user, if it doesn't exist yet, and return the object
-POST('/users/add/', req => {
+// 1. Returns all user records or user records by query
+GET('/user', req => db.users.find(req.query))
+// 2. Tries to find a user by id
+GET('/user/:id', req => db.users.findById(req.params.id))
+// 3. Adds a new user, and returns the new object
+POST('/user', req => {
     return db.task('add-user', async t => {
         const user = await t.users.findByEmail(req.body.email)
         return user || t.users.add(req.body)
     })
 })
-// 4. remove a user by id
-DELETE('/users/remove', req => db.users.remove(req.params.id))
-// 5. remove all records from the table
-DELETE('/users/empty', () => db.users.empty())
-// 6. get all users
-GET('/users/all', () => db.users.all())
-// 7. count all users
+// 4. Tries to delete a user by id, and returns the number of records deleted
+DELETE('/user/:id', req => db.users.remove(req.params.id))
+// 5. Returns the total number of users
 GET('/users/total', () => db.users.total())
-// 8. find a user by id
-GET('/users/find', req => db.users.findById(req.params.id))
-// 9. find a user by email
-GET('/users/find', req => db.users.findByEmail(req.params.email))
-// 10. add seed user
-GET('/users/init', () => db.users.init(env.secret))
+// 6. add seed user
+POST('/users/init', () => db.users.init(env.secret))
+
+// Remove all users
+DELETE('/users/empty', () => db.users.empty())
+// DDL. Creates the users table
+POST('/users/table', () => db.users.createTable())
+// DDL. Drops the users table
+DELETE('/users/table', () => db.users.dropTable())
 
 //////////////////////////////////////////////
 // Persons Web API
@@ -58,7 +57,7 @@ GET('/persons/total', () => db.persons.total())
 // Remove all persons
 DELETE('/persons/empty', () => db.persons.emptyTable())
 // DDL. Creates the persons table
-GET('/persons/table', () => db.persons.createTable())
+POST('/persons/table', () => db.persons.createTable())
 // DDL. Drops the persons table
 DELETE('/persons/table', () => db.persons.dropTable())
 

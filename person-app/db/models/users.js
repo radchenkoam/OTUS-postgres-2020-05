@@ -13,16 +13,27 @@ class UsersManager {
         createColumnsets(pgp)
     }
 
-    // 1. Creates the table
-    async create() {
-        return this.db.none(query.createUsersTable)
+    // 1. Returns all user records
+    async find(p) {
+        return this.db.any(
+            query.select, 
+            {
+                tableName: cs.select.table, 
+                fields: cs.select.names, 
+                filterExp: JSON.stringify(p) === '{}' ? '' : this.pgp.as.format('where $1:name = $1:csv', [p])
+            }
+        )
     }
 
-    // 2. Drops the table
-    async drop() {
-        return this.db.none(query.drop, { tableName: cs.select.table })
+    // 2. Tries to find a user by id
+    async findById(id) {
+        return this.db.oneOrNone(query.select, { 
+            tableName: cs.select.table, 
+            fields: cs.select.names, 
+            filterExp: this.pgp.as.format('where id = $1', [+id])
+        })
     }
-
+    
     // 3. Adds a new user, and returns the new object
     async add(b) {
         return this.db.one(
@@ -53,40 +64,20 @@ class UsersManager {
         )
     }
 
-    // 5. Removes all records from the table
-    async empty() {
-        return this.db.none(query.truncate, { tableName: cs.select.table })
-    }
-
-    // 6. Returns all user records
-    async all() {
-        return this.db.any(query.select, { tableName: cs.select.table, fields: cs.select.names })
-    }
-
-    // 7. Returns the total number of users
+    // 5. Returns the total number of users
     async total() {
-        return this.db.one(query.select, { tableName: cs.select.table, fields: 'count(*)' }, a => +a.count)
+        return this.db.one(
+            query.select, 
+            {
+                tableName: cs.select.table, 
+                fields: 'count(*)' , 
+                filterExp: '' 
+            }, 
+            a => +a.count
+        )
     }
 
-    // 8. Tries to find a user from id
-    async findById(id) {
-        return this.db.oneOrNone(query.select, { 
-            tableName: cs.select.table, 
-            fields: cs.select.names, 
-            filterExp: this.pgp.as.format('where id = $1', [+id])
-        })
-    }
-
-    // 9. Tries to find a user from email
-    async findByEmail(email) {
-        return this.db.oneOrNone(query.select, { 
-            tableName: cs.select.table, 
-            fields: cs.select.names, 
-            filterExp: this.pgp.as.format('where email = $1', [email])
-        })
-    }
-
-    // 10. Initializes the table with seed user
+    // 6. Initializes the table with seed user
     async init(pwd) {
         return this.db.one(
             query.insert, 
@@ -102,6 +93,21 @@ class UsersManager {
                 returnExp: 'returning *'
             }
         )
+    }
+
+    // Removes all records from the table
+    async empty() {
+        return this.db.none(query.truncate, { tableName: cs.select.table })
+    }
+
+    // DDL. Creates the users table
+    async createTable() {
+        return this.db.none(query.createUsersTable)
+    }
+
+    // DDL. Drops the users table
+    async dropTable() {
+        return this.db.none(query.drop, { tableName: cs.select.table })
     }
 }
 
