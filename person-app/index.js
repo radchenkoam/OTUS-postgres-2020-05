@@ -1,4 +1,4 @@
-import { db } from './db'
+import { db } from './db.js'
 import { hashPassword } from './helpers/validation.js'
 import { GET, POST, DELETE } from './helpers/handler.js'
 import env from './env.js'
