@@ -10,9 +10,9 @@ const initOptions = {
     obj.users = new UsersManager(obj, pgp)
     obj.persons = new PersonsManager(obj, pgp)
   },
-  query(e) {
+  /*query(e) {
     console.log('QUERY:', e.query);
-  }
+  }*/
 }
 
 const pgp = pgPromise(initOptions)
