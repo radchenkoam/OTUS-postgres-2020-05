@@ -1,16 +1,17 @@
 import env from '../env.js'
-export const Users = require('./models/users.js').default;
-export const Persons = require('./models/persons.js').default;
-
-const promise = require('bluebird')
-const pgPromise = require('pg-promise')
-const { Users, Persons } = require('./models')
+import promise from 'bluebird'
+import pgPromise from 'pg-promise'
+import UsersManager from './models/users.js'
+import PersonsManager from './models/persons.js'
 
 const initOptions = {
   promiseLib: promise,
   extend (obj, dc) {
-    obj.users = new Users(obj, pgp)
-    obj.persons = new Persons(obj, pgp)
+    obj.users = new UsersManager(obj, pgp)
+    obj.persons = new PersonsManager(obj, pgp)
+  },
+  query(e) {
+    console.log('QUERY:', e.query);
   }
 }
 
