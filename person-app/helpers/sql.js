@@ -1,5 +1,19 @@
-import { QueryFile } from 'pg-promise'
 import { join as joinPath } from 'path'
+import path from 'path';
+import pkg from 'pg-promise';
+
+const { QueryFile } = pkg;
+const __dirname = path.resolve();
+
+export const query = {
+  createUsersTable: sql('/db/sql/createUsersTable.sql'),
+  createPersonsTable: sql('/db/sql/createPersonsTable.sql'),
+  drop: sql('/db/sql/drop.sql'),
+  insert: sql('/db/sql/insert.sql'),
+  delete: sql('/db/sql/delete.sql'),
+  truncate: sql('/db/sql/truncate.sql'),
+  select: sql('/db/sql/select.sql')
+}
 
 /** Helper for linking to external query files;
  * @param {*} file 
@@ -11,33 +25,10 @@ function sql(file) {
   }
   const qf = new QueryFile(fullPath, options)
   if (qf.error) {
-      console.error(qf.error)
+      // console.error(qf.error)
+      console.log(__dirname, fullPath, qf)
   }
   return qf
   // See QueryFile API:
   // http://vitaly-t.github.io/pg-promise/QueryFile.html
-}
-
-export const users = {
-  create: sql('../db/sql/createUsersTable.sql'),
-  drop: sql('../db/sql/drop.sql'),
-  add: sql('../db/sql/insert.sql'),
-  remove: sql('../db/sql/delete.sql'),
-  empty: sql('../db/sql/truncate.sql'),
-  all: sql('../db/sql/select.sql'),
-  total: sql('../db/sql/select.sql'),
-  findById: sql('../db/sql/select.sql'),
-  findByEmail: sql('../db/sql/select.sql'),
-  init: sql('../db/sql/insert.sql')    
-}
-export const persons = {
-  create: sql('../db/sql/createPersonsTable.sql'),
-  drop: sql('../db/sql/drop.sql'),
-  add: sql('../db/sql/insert.sql'), 
-  remove: sql('../db/sql/delete.sql'),
-  empty: sql('../db/sql/truncate.sql'),
-  all: sql('../db/sql/select.sql'),
-  total: sql('../db/sql/select.sql'),
-  findById: sql('../db/sql/select.sql'), 
-  findByName: sql('../db/sql/select.sql')
 }
