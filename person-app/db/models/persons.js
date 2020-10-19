@@ -1,58 +1,96 @@
-import { persons } from '../../helpers/sql.js';
-const cs = {}; // Reusable ColumnSet objects.
+import moment from 'moment'
+import pkg from 'faker'
+import { query } from '../../helpers/sql.js'
+
+const faker = pkg
+faker.locale = "ru"
+
+const cs = {} // Reusable ColumnSet objects.
 
 class PersonsManager {
     constructor(db, pgp) {
-        this.db = db;
-        this.pgp = pgp;
-        createColumnsets(pgp);
+        this.db = db
+        this.pgp = pgp
+        createColumnsets(pgp)
     }
 
-    // Creates the table;
-    async create() {
-        return this.db.none(persons.create);
+    // Returns the age given the date of birth
+    getAge(birthday) {
+        const millis = Date.now() - Date.parse(birthday);
+        return new Date(millis).getFullYear() - 1970;
     }
 
-    // Drops the table;
-    async drop() {
-        return this.db.none(persons.drop, { tableName: cs.table });
+    // 1. Returns all person records or person records by query
+    async find(p) {
+        return this.db.any(
+            query.select, {
+                tableName: cs.select.table,
+                fields: cs.select.names,
+                filterExp: JSON.stringify(p) === '{}' ? '' : this.pgp.as.format('where $1:name = $1:csv', [p])
+            }
+        )
     }
 
-    // Removes all records from the table;
-    async empty() {
-        return this.db.none(persons.empty, { tableName: cs.table });
+    // 2. Tries to find a person by id
+    async findById(id) {
+        return this.db.oneOrNone(query.select, {
+            tableName: cs.select.table,
+            fields: cs.select.names,
+            filterExp: this.pgp.as.format('where id = $1', [+id])
+        })
     }
 
-    // Adds a new record and returns the full object;
-    // It is also an example of mapping HTTP requests into query parameters;
-    async add(values) {
-        return this.db.one(persons.add, {
-            userId: +values.userId,
-            productName: values.name
-        });
+    // 3. Adds a new or fake person and returns the full object
+    async add(b) {
+        return this.db.one(
+            query.insert, {
+                tableName: cs.insert.table,
+                values: {
+                    name: b.name || faker.name.findName(),
+                    age: b.age || this.getAge(faker.date.between('1950-01-01', '2013-12-31')),
+                    created_on: b.created_on || moment().utc()
+                },
+                returnExp: 'returning *'
+            }
+        )
     }
 
-    // Tries to delete a product by id, and returns the number of records deleted;
+    // 4. Tries to delete a person by id, and returns the number of records deleted
     async remove(id) {
-        return this.db.result('DELETE FROM persons WHERE id = $1', +id, r => r.rowCount);
+        return this.db.result(
+            query.delete, {
+                tableName: cs.select.table,
+                filterExp: this.pgp.as.format('where id = $1', [+id])
+            },
+            r => r.rowCount
+        )
     }
 
-    // Tries to find a user product from user id + product name;
-    async find(values) {
-        return this.db.oneOrNone(persons.find, {
-            userId: +values.userId,
-            productName: values.name
-        });
-    }
-
-    // Returns all product records;
-    async all() {
-        return this.db.any('SELECT * FROM persons');
-    }
-
-    // Returns the total number of persons;
+    // 5. Returns the total number of persons
     async total() {
-        return this.db.one('SELECT count(*) FROM persons', [], a => +a.count);
+        return this.db.one(
+            query.select, {
+                tableName: cs.select.table,
+                fields: 'count(*)',
+                filterExp: ''
+            },
+            a => +a.count
+        )
+    }
+
+    // Removes all records from the table
+    async emptyTable() {
+        return this.db.none(query.truncate, { tableName: cs.select.table })
+    }
+
+    // DDL. Creates the persons table
+    async createTable() {
+        return this.db.none(query.createPersonsTable)
+    }
+
+    // DDL. Drops the persons table
+    async dropTable() {
+        return this.db.none(query.drop, { tableName: cs.select.table })
     }
 }
 
@@ -62,12 +100,12 @@ class PersonsManager {
  */
 function createColumnsets(pgp) {
     if (!cs.insert) {
-        const table = new pgp.helpers.TableName({table: 'persons', schema: 'public'});
-        cs.insert = new pgp.helpers.ColumnSet([
-            'id^', 'name', 'age', 'created_on'
-        ], {table});
+        const table = new pgp.helpers.TableName({ table: 'persons', schema: 'public' })
+        cs.insert = new pgp.helpers.ColumnSet(['name', 'age', 'created_on'], { table })
+        cs.update = cs.insert.extend(['?id'])
+        cs.select = cs.update
     }
     return cs;
 }
 
-export default PersonsManager;
+export default PersonsManager

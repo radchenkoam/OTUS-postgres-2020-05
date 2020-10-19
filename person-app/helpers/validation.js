@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import env from '../../env.js'
+import env from '../env.js'
 
 /** Hash Password Method
  * @param {string} password
