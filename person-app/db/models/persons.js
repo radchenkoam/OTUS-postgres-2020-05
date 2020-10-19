@@ -1,4 +1,4 @@
-import { persons as sql } from '../sql';
+import { persons } from '../../helpers/sql.js';
 const cs = {}; // Reusable ColumnSet objects.
 
 class PersonsManager {
@@ -10,23 +10,23 @@ class PersonsManager {
 
     // Creates the table;
     async create() {
-        return this.db.none(sql.create);
+        return this.db.none(persons.create);
     }
 
     // Drops the table;
     async drop() {
-        return this.db.none(sql.drop, { tableName: cs.table });
+        return this.db.none(persons.drop, { tableName: cs.table });
     }
 
     // Removes all records from the table;
     async empty() {
-        return this.db.none(sql.empty, { tableName: cs.table });
+        return this.db.none(persons.empty, { tableName: cs.table });
     }
 
     // Adds a new record and returns the full object;
     // It is also an example of mapping HTTP requests into query parameters;
     async add(values) {
-        return this.db.one(sql.add, {
+        return this.db.one(persons.add, {
             userId: +values.userId,
             productName: values.name
         });
@@ -39,7 +39,7 @@ class PersonsManager {
 
     // Tries to find a user product from user id + product name;
     async find(values) {
-        return this.db.oneOrNone(sql.find, {
+        return this.db.oneOrNone(persons.find, {
             userId: +values.userId,
             productName: values.name
         });
