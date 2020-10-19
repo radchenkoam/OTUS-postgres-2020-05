@@ -1,6 +1,6 @@
-import env from '../../env.js'
-export const Users = require('./users.js').default;
-export const Persons = require('./persons.js').default;
+import env from '../env.js'
+export const Users = require('./models/users.js').default;
+export const Persons = require('./models/persons.js').default;
 
 const promise = require('bluebird')
 const pgPromise = require('pg-promise')
