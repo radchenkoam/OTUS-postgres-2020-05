@@ -17,27 +17,27 @@ app.use(express.json())
 //////////////////////////////////////////////
 // 1. Returns all user records or user records by query
 GET('/user', req => db.users.find(req.query))
-// 2. Tries to find a user by id
+    // 2. Tries to find a user by id
 GET('/user/:id', req => db.users.findById(req.params.id))
-// 3. Adds a new user, and returns the new object or returns exists !!! incorrect ???
+    // 3. Adds a new user, and returns the new object or returns exists !!! incorrect ???
 POST('/user', req => {
-    return db.task('add-user', async t => {
-        const user = await t.users.findByEmail(req.body.email)
-        return user || t.users.add(req.body)
+        return db.task('add-user', async t => {
+            const user = await t.users.findByEmail(req.body.email)
+            return user || t.users.add(req.body)
+        })
     })
-})
-// 4. Tries to delete a user by id, and returns the number of records deleted
+    // 4. Tries to delete a user by id, and returns the number of records deleted
 DELETE('/user/:id', req => db.users.remove(req.params.id))
-// 5. Returns the total number of users
+    // 5. Returns the total number of users
 GET('/users/total', () => db.users.total())
-// 6. add seed user
+    // 6. add seed user
 POST('/users/init', () => db.users.init(env.secret))
 
 // Remove all users
 DELETE('/users/empty', () => db.users.empty())
-// DDL. Creates the users table
+    // DDL. Creates the users table
 POST('/users/table', () => db.users.createTable())
-// DDL. Drops the users table
+    // DDL. Drops the users table
 DELETE('/users/table', () => db.users.dropTable())
 
 //////////////////////////////////////////////
@@ -45,20 +45,20 @@ DELETE('/users/table', () => db.users.dropTable())
 //////////////////////////////////////////////
 // 1. Returns all person records or person records by query
 GET('/person', req => db.persons.find(req.query))
-// 2. Tries to find a person by id
+    // 2. Tries to find a person by id
 GET('/person/:id', req => db.persons.findById(req.params.id))
-// 3. Adds a new or fake person and returns the full object
+    // 3. Adds a new or fake person and returns the full object
 POST('/person', req => db.persons.add(req.body))
-// 4. Tries to delete a person by id
+    // 4. Tries to delete a person by id
 DELETE('/person/:id', req => db.persons.remove(req.params.id))
-// 5. Returns the total number of persons
+    // 5. Returns the total number of persons
 GET('/persons/total', () => db.persons.total())
 
 // Remove all persons
 DELETE('/persons/empty', () => db.persons.emptyTable())
-// DDL. Creates the persons table
+    // DDL. Creates the persons table
 POST('/persons/table', () => db.persons.createTable())
-// DDL. Drops the persons table
+    // DDL. Drops the persons table
 DELETE('/persons/table', () => db.persons.dropTable())
 
 
@@ -69,7 +69,7 @@ app.listen(env.port_api).on('listening', () => {
 
 // Generic GET handler
 function GET(url, handler) {
-    app.get(url, async (req, res) => {
+    app.get(url, async(req, res) => {
         try {
             const data = await handler(req)
             res.json({
@@ -84,10 +84,10 @@ function GET(url, handler) {
         }
     })
 }
-  
+
 // Generic POST handler
 function POST(url, handler) {
-    app.post(url, async (req, res) => {
+    app.post(url, async(req, res) => {
         try {
             const data = await handler(req)
             res.json({
@@ -106,7 +106,7 @@ function POST(url, handler) {
 
 // Generic DELETE handler
 function DELETE(url, handler) {
-    app.delete(url, async (req, res) => {
+    app.delete(url, async(req, res) => {
         try {
             const data = await handler(req);
             res.json({
