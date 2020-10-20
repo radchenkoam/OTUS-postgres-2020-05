@@ -100,3 +100,16 @@
 
 #### Установка одного экземпляра сервера PostgreSQL в кластере Kubernetes с помощью Google Cloud Marketplace
 - [Домашнее задание. Вариант 2](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2326%20homework%202%20var.md "Ctrl+click - new tab")
+
+***
+
+### **Занятие #30.**
+#### <u>Тема:</u> "Веб-приложение с UI и БД". 
+
+#### Разработка собственного приложения для работы с кластером
+- [Домашнее задание.](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/lesson%20%2330%20homework.md "Ctrl+click - new tab")
+
+***
+
+Статья
+[Kubernetes Native PostgreSQL-as-a-Service от Crunchy Data]()
