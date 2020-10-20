@@ -111,5 +111,5 @@
 
 ***
 
-Статья
+**Статья**
 [Kubernetes Native PostgreSQL-as-a-Service от Crunchy Data](https://github.com/radchenkoam/OTUS-postgres-2020-05/blob/dev/lessons/Crunchy%20PostgreSQL%20%D0%B4%D0%BB%D1%8F%20Kubernetes.md "Ctrl+click - new tab")
