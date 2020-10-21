@@ -272,7 +272,8 @@ Forwarding from [::1]:3000 -> 3000
 
 
 - один из дашбордов от Crunchy - **PostgreSQLDetails**
-![image](https://user-images.githubusercontent.com/29423304/96724640-ba926a80-13b8-11eb-8855-bdc45726c5c2.png)
+![image](https://user-images.githubusercontent.com/29423304/96734856-a1db8200-13c3-11eb-9b76-2f765f26c54f.png)
+
 целиком не поместился :)
 
 - в Postman можно подергать ручки
