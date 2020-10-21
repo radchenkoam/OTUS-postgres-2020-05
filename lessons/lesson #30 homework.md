@@ -267,6 +267,7 @@ Forwarding from [::1]:3000 -> 3000
 
 - в Grafana также видно работу приложения
 ![image](https://user-images.githubusercontent.com/29423304/96724173-350eba80-13b8-11eb-9273-e92e04a57daf.png)
+
 мой дашборд показывает общее количество записей в таблице person, текущее количество TPS, и последних 10 добавленных Person
 
 
