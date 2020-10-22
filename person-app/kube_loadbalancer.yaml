@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-person-app-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: node-person-app
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      name: http

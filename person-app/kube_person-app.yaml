@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-person-app
+spec:
+  selector:
+    matchLabels:
+      app: node-person-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: node-person-app
+    spec:
+      containers:
+      - name: node-person-app
+        image: radchenkoam/node-person-app:latest
+        ports:
+        - containerPort: 5000
+          protocol: TCP
